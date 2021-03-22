@@ -13,6 +13,6 @@ jobs:
           flutter-version: '1.22.x'
           channel: 'stable'
       - run: flutter pub get
-	working-directory: ./language_app/
+        working-directory: ./language_app/
       - run: flutter build aot
-	working-directory: ./language_app/
+        working-directory: ./language_app/
