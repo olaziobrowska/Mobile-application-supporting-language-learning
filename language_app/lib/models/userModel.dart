@@ -45,8 +45,7 @@ class UserModel {
         name: name);
   }
 
-  static UserModel newFromFireStore(
-      DocumentSnapshot document) {
+  static UserModel newFromFireStore(DocumentSnapshot document) {
     var map = document.data;
     return UserModel._(
         id: document.documentID,
@@ -61,8 +60,10 @@ class UserModel {
     Map<String, dynamic> output = Map();
     if (userModel.email != null) output[emailFirebaseColumn] = userModel.email;
     if (userModel.name != null) output[nameFirebaseColumn] = userModel.name;
-    if (userModel.nickname != null) output[nicknameFirebaseColumn] = userModel.nickname;
-    if (userModel.surname != null) output[surnameFirebaseColumn] = userModel.surname;
+    if (userModel.nickname != null)
+      output[nicknameFirebaseColumn] = userModel.nickname;
+    if (userModel.surname != null)
+      output[surnameFirebaseColumn] = userModel.surname;
     return output;
   }
 }

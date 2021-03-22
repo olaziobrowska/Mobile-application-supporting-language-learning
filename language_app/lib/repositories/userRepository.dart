@@ -13,7 +13,9 @@ class UserRepository {
     if (userModel == null || userModel.id == null) return null;
     try {
       CollectionReference collection = fireStore.collection(_collectionName);
-      await collection.document(userModel.id).setData(UserModel.toMap(userModel));
+      await collection
+          .document(userModel.id)
+          .setData(UserModel.toMap(userModel));
       return "Success";
     } catch (e) {
       //TODO log error
