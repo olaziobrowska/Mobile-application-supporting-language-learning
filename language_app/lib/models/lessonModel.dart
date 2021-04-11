@@ -4,25 +4,17 @@ import 'package:language_app/models/userModel.dart';
 final String pointsFirebaseColumn = "Points";
 final String nameFirebaseColumn = "Name";
 final String dateFirebaseColumn = "Date";
-final String uidFirebaseColumn = "Uid";
-final String languageFirebaseColumn = "Language";
 
 class LessonModel {
   String id;
   String name;
-  Timestamp date;
-  String uid;
-  String language;
+  DateTime date;
 
-  LessonModel._({this.id, this.name, this.date, this.uid, this.language});
+  LessonModel._({this.id, this.name, this.date});
 
   static LessonModel newLesson({UserModel userModel, String name}) {
     if (userModel == null) return null;
-    return LessonModel._(
-        uid: userModel.id,
-        name: name,
-        date: Timestamp.now(),
-        language: userModel.languageSelected);
+    return LessonModel._(id: userModel.id, name: name, date: DateTime.now());
   }
 
   static LessonModel newFromFireStore(DocumentSnapshot document) {
@@ -30,9 +22,7 @@ class LessonModel {
     return LessonModel._(
         id: document.documentID,
         name: map[nameFirebaseColumn],
-        date: map[dateFirebaseColumn],
-        uid: map[uidFirebaseColumn],
-        language: map[languageFirebaseColumn]);
+        date: map[dateFirebaseColumn]);
   }
 
   static Map<String, dynamic> toMap(LessonModel lessonModel) {
@@ -40,9 +30,6 @@ class LessonModel {
     Map<String, dynamic> output = Map();
     if (lessonModel.name != null) output[nameFirebaseColumn] = lessonModel.name;
     if (lessonModel.date != null) output[dateFirebaseColumn] = lessonModel.date;
-    if (lessonModel.uid != null) output[uidFirebaseColumn] = lessonModel.uid;
-    if (lessonModel.language != null)
-      output[languageFirebaseColumn] = lessonModel.language;
     return output;
   }
 }
