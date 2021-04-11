@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:language_app/models/lessonModel.dart';
 import 'package:language_app/models/userModel.dart';
 
 final String lessonIdFirebaseColumn = "LessonId";
@@ -6,15 +7,15 @@ final String titleFirebaseColumn = "Title";
 final String dateFirebaseColumn = "Date";
 final String contentFirebaseColumn = "Content";
 final String attachmentFirebaseColumn = "Attachment";
-final String uidNoteFirebaseColumn = "Uid";
+final String uidFirebaseColumn = "Uid";
 
 class NoteModel {
   String id;
   String lessonId;
-  String title = "";
-  Timestamp date;
-  List<String> content = [""];
-  List<String> attachment = [""];
+  String title;
+  DateTime date;
+  List<String> content;
+  String attachment;
   String uid;
 
   NoteModel._(
@@ -26,29 +27,19 @@ class NoteModel {
       this.attachment,
       this.uid});
 
-  static NoteModel empty() {
-    return NoteModel._(
-        uid: "",
-        lessonId: "",
-        title: "",
-        content: [""],
-        attachment: [""],
-        date: Timestamp.now());
-  }
-
   static NoteModel newNote(
       {UserModel userModel,
-      String lessonId,
+      LessonModel lessonModel,
       String title,
       List<String> content,
-      List<String> attachment}) {
+      String attachment}) {
     if (userModel == null) return null;
     return NoteModel._(
         uid: userModel.id,
-        lessonId: lessonId,
+        lessonId: lessonModel.id,
         title: title,
         content: content,
-        date: Timestamp.now(),
+        date: DateTime.now(),
         attachment: attachment);
   }
 
@@ -58,10 +49,10 @@ class NoteModel {
         id: document.documentID,
         lessonId: map[lessonIdFirebaseColumn],
         title: map[titleFirebaseColumn],
-        content: map[contentFirebaseColumn].cast<String>(),
+        content: map[contentFirebaseColumn],
         date: map[dateFirebaseColumn],
-        attachment: map[attachmentFirebaseColumn].cast<String>(),
-        uid: map[uidNoteFirebaseColumn]);
+        attachment: map[attachmentFirebaseColumn],
+        uid: map[uidFirebaseColumn]);
   }
 
   static Map<String, dynamic> toMap(NoteModel noteModel) {
@@ -75,7 +66,7 @@ class NoteModel {
     if (noteModel.date != null) output[dateFirebaseColumn] = noteModel.date;
     if (noteModel.attachment != null)
       output[attachmentFirebaseColumn] = noteModel.attachment;
-    if (noteModel.uid != null) output[uidNoteFirebaseColumn] = noteModel.uid;
+    if (noteModel.uid != null) output[uidFirebaseColumn] = noteModel.uid;
     return output;
   }
 }
