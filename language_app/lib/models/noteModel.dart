@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:language_app/models/lessonModel.dart';
 import 'package:language_app/models/userModel.dart';
 
 final String lessonIdFirebaseColumn = "LessonId";
@@ -15,7 +14,7 @@ class NoteModel {
   String title;
   DateTime date;
   List<String> content;
-  String attachment;
+  List<String> attachment;
   String uid;
 
   NoteModel._(
@@ -29,14 +28,14 @@ class NoteModel {
 
   static NoteModel newNote(
       {UserModel userModel,
-      LessonModel lessonModel,
+      String lessonId,
       String title,
       List<String> content,
-      String attachment}) {
+      List<String> attachment}) {
     if (userModel == null) return null;
     return NoteModel._(
         uid: userModel.id,
-        lessonId: lessonModel.id,
+        lessonId: lessonId,
         title: title,
         content: content,
         date: DateTime.now(),
