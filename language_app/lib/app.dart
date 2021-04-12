@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:language_app/utils/routes/routes.dart';
 import 'services/notificationService.dart';
-import 'views/default_view/defaultView.dart';
+import 'views/login_view/loginView.dart';
 
 class App extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
