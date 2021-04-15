@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:language_app/components/inputs/auth_inputs/authInput.dart';
-
+import 'package:language_app/components/common/commonComponents.dart';
+import 'package:language_app/utils/routes/routes.dart';
 import 'loginViewStyle.dart';
 
 class LoginView extends StatefulWidget {
+  final NavigationService _navigationService = locator<NavigationService>();
+
   LoginView({Key key, this.title}) : super(key: key);
+
   final String title;
 
   @override
@@ -12,19 +15,35 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  void _navigateToRegister() {
+    widget._navigationService.navigateTo('registerView', 0);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final emailField = TextInputComponent("Email", false);
-    final passwordField = TextInputComponent("Password", true);
+    final emailField = TextInputComponent("Email", false, null);
+    final passwordField = TextInputComponent("Password", true, null);
     final loginButton = OnPressButton("Login", () {}, context);
-    final logoPath = "assets/logo.png";
+    final registerButton =
+        LinkFlatButton("Don't have an account?", _navigateToRegister);
+    final logoPath = "assets/images/placeholder.png";
 
-    List<Widget> widgetList = [emailField, passwordField, loginButton];
+    List<Widget> widgetList = [
+      emailField,
+      passwordField,
+      loginButton,
+      registerButton
+    ];
 
     return Scaffold(
-      body: Center(
-        child: Container(
-            color: Colors.white, child: LoginViewPadding(widgetList, logoPath)),
+      body: SingleChildScrollView(
+        child: Center(
+            child: Container(
+                child: Form(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [LoginViewPadding(widgetList, logoPath)]),
+                ))),
       ),
     );
   }
