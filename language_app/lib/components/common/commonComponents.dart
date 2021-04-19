@@ -8,7 +8,7 @@ Image InsertImage(String imagePath) {
 
 InputDecoration buildInputDecoration(String hintText, IconData icon) {
   return InputDecoration(
-    prefixIcon: Icon(icon, color: Color.fromRGBO(50, 62, 72, 1.0)),
+    prefixIcon: Icon(icon, color: iconColor),
     hintText: hintText,
     contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
@@ -66,20 +66,6 @@ FlatButton LinkFlatButton(String hintText, Function onPressAction) {
 Text textBanner(hintText) {
   return Text(
     hintText,
-    style: TextStyle(
-      fontSize: 50.0,
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-      letterSpacing: -1.0,
-      wordSpacing: 5.0,
-      shadows: [
-        Shadow(
-          blurRadius: 15.0,
-          color: Colors.blue,
-          offset: Offset(5.0, 5.0),
-        ),
-      ],
-    ),
-    // style: Theme.of(context).textTheme.title,
+    style: textBannerStyle,
   );
 }

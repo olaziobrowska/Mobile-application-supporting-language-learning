@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/utils/routes/routes.dart';
-import 'registeViewrStyle.dart';
+import 'registerViewStyle.dart';
 
 class RegisterView extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
