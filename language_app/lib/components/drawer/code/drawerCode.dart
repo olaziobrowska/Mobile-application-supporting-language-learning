@@ -16,6 +16,12 @@ class DrawerCode extends ChangeNotifier {
   List<DrawerListTile> getListTiles() {
     return [
       DrawerListTile(
+          text: "Home",
+          icon: FontAwesomeIcons.home,
+          onTap: () {
+            _navigationService.navigateTo("homeView", []);
+          }),
+      DrawerListTile(
           text: "Flashcards",
           icon: FontAwesomeIcons.language,
           onTap: () {

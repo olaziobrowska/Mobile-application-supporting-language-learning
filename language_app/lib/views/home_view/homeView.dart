@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:language_app/components/appbar/appbar.dart';
+import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/common/commonComponents.dart';
+import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/utils/global_const/globalLayout.dart';
 import 'package:language_app/utils/routes/routes.dart';
 import 'package:language_app/views/home_view/homeViewModel.dart';
@@ -19,25 +22,28 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   final HomeViewModel _homeViewModel = HomeViewModel.instance;
 
   @override
   Widget build(BuildContext context) {
     final inputWord = TextInputComponent("Enter your text", false, null);
-    final translatedWord = TextInputComponent("Translation", false, null);
+    final translatedWord = TextOutputComponent("Translation", false, null);
     final logoPath = "assets/images/placeholder.png";
-
-    List<Widget> widgetList = [inputWord, translatedWord];
+    final translateButton = OnPressButton("Translate", () {
+      _homeViewModel.translator
+          .translate("car is pretty", from: 'en', to: 'pl')
+          .then(print);
+      // widget._navigationService.navigateTo("homeView", 1);
+    }, context);
+    List<Widget> widgetList = [inputWord, translatedWord, translateButton];
 
     return ChangeNotifierProvider.value(
       value: _homeViewModel,
       child: Scaffold(
-        appBar: new AppBar(
-          title: Text(appTitle,
-              style: TextStyle(fontSize: 30), textAlign: TextAlign.center),
-          centerTitle: true,
-        ),
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(50),
+            child: MainAppBar(code: AppbarCode.New(appTitle))),
+        drawer: MainDrawer(),
         body: SingleChildScrollView(
           child: Center(
               child: Container(

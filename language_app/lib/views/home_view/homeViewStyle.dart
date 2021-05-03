@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:language_app/components/common/commonComponents.dart';
-import 'package:language_app/components/common/commonStyles.dart';
 
 class Languagee {
   final int id;
@@ -23,7 +22,6 @@ Padding HomeViewPadding(List<Widget> widgetList, String imagePath) {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text('Welcome', style: textBannerStyle),
         SizedBox(height: 25.0),
         SizedBox(height: 250.0, child: InsertImage(imagePath)),
         SizedBox(height: 25.0),
@@ -48,6 +46,8 @@ Padding HomeViewPadding(List<Widget> widgetList, String imagePath) {
         ),
         SizedBox(height: 10.0),
         widgetList[1],
+        SizedBox(height: 25.0),
+        widgetList[2]
       ],
     ),
   );

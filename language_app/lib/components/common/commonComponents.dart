@@ -76,11 +76,13 @@ TextField TextOutputComponent(
     return TextField(
         obscureText: isObscureText,
         style: textStyle,
-        decoration: buildInputDecoration(hintText, icon));
+        decoration: buildInputDecoration(hintText, icon),
+        readOnly: true);
   } else {
     return TextField(
       obscureText: isObscureText,
       style: textStyle,
+      readOnly: true,
       decoration: InputDecoration(
           contentPadding: inputPadding,
           hintText: hintText,
