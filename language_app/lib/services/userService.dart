@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:language_app/models/userModel.dart';
 import 'package:language_app/repositories/userRepository.dart';
 import 'package:language_app/utils/authorization/authenticationTools.dart';
+import 'package:language_app/utils/local_storage/storage.dart';
 import 'package:language_app/view_models/userViewModel.dart';
 
 const _weakPasswordMessage = "Entered password is too short";
@@ -56,6 +57,9 @@ class UserService {
       return _handleLoginException(e);
     }
     if (result == null) return null;
+    var customUser = await _userRepository.getUserByUID(result.uid);
+    if (customUser == null) return null;
+    AppStorage.loggedInUser = UserViewModel.newFromUserModel(customUser);
     return result.uid;
   }
 
