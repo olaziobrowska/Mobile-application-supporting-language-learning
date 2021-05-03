@@ -8,26 +8,22 @@ Image InsertImage(String imagePath) {
 
 InputDecoration buildInputDecoration(String hintText, IconData icon) {
   return InputDecoration(
-    isDense: true,
     prefixIcon: Icon(icon, color: iconColor),
     hintText: hintText,
     contentPadding: EdgeInsets.fromLTRB(20.0, 7.5, 20.0, 7.5),
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
   );
 }
-TextFormField TextInputComponent(
-    String hintText, bool isObscureText, IconData icon, TextEditingController textController) {
+
+TextField TextInputComponent(
+    String hintText, bool isObscureText, IconData icon) {
   if (icon != null) {
-    return TextFormField(
-        maxLines: 1,
-        controller: textController,
+    return TextField(
         obscureText: isObscureText,
         style: textStyle,
         decoration: buildInputDecoration(hintText, icon));
   } else {
-    return TextFormField(
-      maxLines: 1,
-      controller: textController,
+    return TextField(
       obscureText: isObscureText,
       style: textStyle,
       decoration: InputDecoration(
@@ -35,30 +31,6 @@ TextFormField TextInputComponent(
           hintText: hintText,
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
-    );
-  }
-}
-
-TextField TextInputComponent2(String hintText, bool isObscureText, IconData icon,Function onChangedAction,
-    TextEditingController textEditingController) {
-  if (icon != null) {
-    return TextField(
-        controller: textEditingController,
-        obscureText: isObscureText,
-        onChanged: onChangedAction,
-        style: textStyle,
-        decoration: buildInputDecoration(hintText, icon));
-  } else {
-    return TextField(
-      controller: textEditingController,
-      obscureText: isObscureText,
-      onChanged: onChangedAction,
-      style: textStyle,
-      decoration: InputDecoration(
-          contentPadding: inputPadding,
-          hintText: hintText,
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
     );
   }
 }
@@ -98,51 +70,17 @@ Text textBanner(hintText) {
   );
 }
 
-DropdownButton DropdownButtonComponent(List<DropdownMenuItem<dynamic>> items,
-    Function onChangedAction, String value) {
-  return DropdownButton(
-    underline: SizedBox(),
-    hint: Text('Please choose language'),
-    icon: Icon(
-      Icons.language,
-      color: Colors.blueAccent,
-    ),
-    items: items,
-    onChanged: onChangedAction,
-    value: value,
-  );
-}
-
-MaterialButton MaterialButtonComponent() {
-  return MaterialButton(
-    onPressed: () {},
-    color: Colors.blue,
-    textColor: Colors.white,
-    child: Icon(
-      Icons.add,
-      size: 24,
-    ),
-    padding: EdgeInsets.all(16),
-    shape: CircleBorder(),
-  );
-}
-
 TextField TextOutputComponent(
-    String hintText, bool isObscureText, IconData icon,
-    [TextEditingController textEditingController]) {
+    String hintText, bool isObscureText, IconData icon) {
   if (icon != null) {
     return TextField(
-        controller: textEditingController,
         obscureText: isObscureText,
         style: textStyle,
-        decoration: buildInputDecoration(hintText, icon),
-        readOnly: true);
+        decoration: buildInputDecoration(hintText, icon));
   } else {
     return TextField(
-      controller: textEditingController,
       obscureText: isObscureText,
       style: textStyle,
-      readOnly: true,
       decoration: InputDecoration(
           contentPadding: inputPadding,
           hintText: hintText,
