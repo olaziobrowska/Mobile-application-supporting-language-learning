@@ -14,7 +14,7 @@ class HomeViewModel extends ChangeNotifier {
 
   static final HomeViewModel instance = HomeViewModel._();
 
-  translate() {
+/*  translate() {
     notifyListeners();
-  }
+  }*/
 }
