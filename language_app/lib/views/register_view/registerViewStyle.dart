@@ -25,12 +25,12 @@ Row forgotSignLabels(NavigationService _navigationService) {
 
 Padding RegisterViewPadding(List<Widget> widgetList) {
   return Padding(
-    padding: const EdgeInsets.all(36.0),
+    padding: const EdgeInsets.all(26.0),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        SizedBox(height: 100.0),
+        SizedBox(height: 60.0),
         Text("Email"),
         SizedBox(height: 5.0),
         widgetList[0],
