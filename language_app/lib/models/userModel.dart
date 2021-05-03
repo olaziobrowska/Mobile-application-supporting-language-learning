@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:language_app/view_models/userViewModel.dart';
 
 final String emailFirebaseColumn = "Email";
 final String nameFirebaseColumn = "Name";
 final String surnameFirebaseColumn = "Surname";
 final String nicknameFirebaseColumn = "Nickname";
+final String languageFirebaseColumn = "Language";
 
 class UserModel {
   String id;
@@ -12,23 +14,32 @@ class UserModel {
   String nickname;
   String name;
   String surname;
+  String languageSelected;
 
   String names() => name + " " + surname;
 
-  UserModel._({this.id, this.email, this.name, this.nickname, this.surname});
+  UserModel._(
+      {this.id,
+      this.email,
+      this.name,
+      this.nickname,
+      this.surname,
+      this.languageSelected});
 
   static UserModel newFromFirebaseUser(
       {FirebaseUser firebaseUser,
       String nickname,
       String name,
-      String surname}) {
+      String surname,
+      String languageSelected}) {
     if (firebaseUser == null) return null;
     return UserModel._(
         id: firebaseUser.uid,
         email: firebaseUser.email,
         name: name,
         surname: surname,
-        nickname: nickname);
+        nickname: nickname,
+        languageSelected: languageSelected);
   }
 
   static UserModel newFromEmail(
@@ -36,13 +47,15 @@ class UserModel {
       String email,
       String nickname,
       String surname,
-      String name}) {
+      String name,
+      String languageSelected}) {
     return UserModel._(
         id: uid,
         email: email,
         nickname: nickname,
         surname: surname,
-        name: name);
+        name: name,
+        languageSelected: languageSelected);
   }
 
   static UserModel newFromFireStore(DocumentSnapshot document) {
@@ -52,7 +65,8 @@ class UserModel {
         email: map[emailFirebaseColumn],
         nickname: map[nicknameFirebaseColumn],
         surname: map[surnameFirebaseColumn],
-        name: map[nameFirebaseColumn]);
+        name: map[nameFirebaseColumn],
+        languageSelected: map[languageFirebaseColumn]);
   }
 
   static Map<String, dynamic> toMap(UserModel userModel) {
@@ -64,6 +78,18 @@ class UserModel {
       output[nicknameFirebaseColumn] = userModel.nickname;
     if (userModel.surname != null)
       output[surnameFirebaseColumn] = userModel.surname;
+    if (userModel.languageSelected != null)
+      output[languageFirebaseColumn] = userModel.languageSelected;
     return output;
+  }
+
+  static UserModel newFromViewModel(UserViewModel userViewModel) {
+    return UserModel._(
+        id: userViewModel.uid,
+        name: userViewModel.name,
+        surname: userViewModel.surname,
+        email: userViewModel.surname,
+        nickname: userViewModel.nickname,
+        languageSelected: userViewModel.languageSelected);
   }
 }
