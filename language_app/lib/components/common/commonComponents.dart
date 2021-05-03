@@ -69,3 +69,23 @@ Text textBanner(hintText) {
     style: textBannerStyle,
   );
 }
+
+TextField TextOutputComponent(
+    String hintText, bool isObscureText, IconData icon) {
+  if (icon != null) {
+    return TextField(
+        obscureText: isObscureText,
+        style: textStyle,
+        decoration: buildInputDecoration(hintText, icon));
+  } else {
+    return TextField(
+      obscureText: isObscureText,
+      style: textStyle,
+      decoration: InputDecoration(
+          contentPadding: inputPadding,
+          hintText: hintText,
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+    );
+  }
+}
