@@ -11,7 +11,7 @@ InputDecoration buildInputDecoration(String hintText, IconData icon) {
     isDense: true,
     prefixIcon: Icon(icon, color: iconColor),
     hintText: hintText,
-    contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+    contentPadding: EdgeInsets.fromLTRB(20.0, 7.5, 20.0, 7.5),
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
   );
 }

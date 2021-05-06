@@ -66,4 +66,12 @@ class UserService {
     if (user == null) return null;
     return UserViewModel.newFromUserModel(user);
   }
+
+  Future<String> changeLanguage(String newLanguage) async {
+    var user = await getLoggedInUser();
+    if (user == null) return null;
+    user.languageSelected = newLanguage;
+    await _userRepository.editUser(UserModel.newFromViewModel(user));
+    return "Success";
+  }
 }

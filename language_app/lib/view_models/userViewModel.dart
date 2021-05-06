@@ -6,24 +6,32 @@ class UserViewModel {
   String name;
   String surname;
   String nickname;
+  String languageSelected;
 
   String names() => name + " " + surname;
 
   UserViewModel._(
-      {this.uid, this.email, this.name, this.surname, this.nickname});
+      {this.uid,
+      this.email,
+      this.name,
+      this.surname,
+      this.nickname,
+      this.languageSelected});
 
   static UserViewModel newFromProperties(
       {String uid,
       String email,
       String name,
       String surname,
-      String nickname}) {
+      String nickname,
+      String languageSelected}) {
     return UserViewModel._(
         uid: uid,
         email: email,
         name: name,
         surname: surname,
-        nickname: nickname);
+        nickname: nickname,
+        languageSelected: languageSelected);
   }
 
   static UserViewModel newFromUserModel(UserModel userModel) {
@@ -32,6 +40,7 @@ class UserViewModel {
         email: userModel.email,
         name: userModel.name,
         surname: userModel.surname,
-        nickname: userModel.nickname);
+        nickname: userModel.nickname,
+        languageSelected: userModel.languageSelected);
   }
 }

@@ -5,18 +5,24 @@ final String pointsFirebaseColumn = "Points";
 final String nameFirebaseColumn = "Name";
 final String dateFirebaseColumn = "Date";
 final String uidFirebaseColumn = "Uid";
+final String languageFirebaseColumn = "Language";
 
 class LessonModel {
   String id;
   String name;
   DateTime date;
   String uid;
+  String language;
 
-  LessonModel._({this.id, this.name, this.date, this.uid});
+  LessonModel._({this.id, this.name, this.date, this.uid, this.language});
 
   static LessonModel newLesson({UserModel userModel, String name}) {
     if (userModel == null) return null;
-    return LessonModel._( uid: userModel.id, name: name, date: DateTime.now());
+    return LessonModel._(
+        uid: userModel.id,
+        name: name,
+        date: DateTime.now(),
+        language: userModel.languageSelected);
   }
 
   static LessonModel newFromFireStore(DocumentSnapshot document) {
@@ -25,7 +31,8 @@ class LessonModel {
         id: document.documentID,
         name: map[nameFirebaseColumn],
         date: map[dateFirebaseColumn],
-        uid: map[uidFirebaseColumn]);
+        uid: map[uidFirebaseColumn],
+        language: map[languageFirebaseColumn]);
   }
 
   static Map<String, dynamic> toMap(LessonModel lessonModel) {
@@ -34,6 +41,8 @@ class LessonModel {
     if (lessonModel.name != null) output[nameFirebaseColumn] = lessonModel.name;
     if (lessonModel.date != null) output[dateFirebaseColumn] = lessonModel.date;
     if (lessonModel.uid != null) output[uidFirebaseColumn] = lessonModel.uid;
+    if (lessonModel.language != null)
+      output[languageFirebaseColumn] = lessonModel.language;
     return output;
   }
 }
