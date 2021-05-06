@@ -5,7 +5,9 @@ import 'package:language_app/utils/routes/routes.dart';
 import 'package:language_app/views/welcome_view/welcomeViewStyle.dart';
 
 class WelcomeView extends StatelessWidget {
+  int id;
   final NavigationService _navigationService = locator<NavigationService>();
+  WelcomeView({@required this.id});
 
   @override
   Widget build(BuildContext context) {
