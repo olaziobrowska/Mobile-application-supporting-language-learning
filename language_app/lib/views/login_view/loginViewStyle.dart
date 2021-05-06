@@ -5,23 +5,23 @@ import 'package:language_app/utils/routes/routes.dart';
 
 Padding LoginViewPadding(List<Widget> widgetList, String imagePath) {
   return Padding(
-    padding: const EdgeInsets.all(36.0),
+    padding: const EdgeInsets.all(20.0),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        SizedBox(height: 30.0),
+        SizedBox(height: 25.0),
         SizedBox(
-          height: 300.0,
+          height: 250.0,
           child: InsertImage(imagePath)
         ),
-        SizedBox(height: 30.0),
-        widgetList[0],
         SizedBox(height: 25.0),
+        widgetList[0],
+        SizedBox(height: 20.0),
         widgetList[1],
-        SizedBox(height: 35.0,),
+        SizedBox(height: 30.0,),
         widgetList[2],
-        SizedBox(height: 15.0,),
+        SizedBox(height: 10.0,),
         widgetList[3],
       ],
     ),
