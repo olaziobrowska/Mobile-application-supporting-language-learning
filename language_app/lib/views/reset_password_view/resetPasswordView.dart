@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/utils/routes/routes.dart';
-import 'resetPasswordViewStyle.dart';
+import 'LoginViewStyle.dart';
 
 class ResetPasswordView extends StatefulWidget {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -44,7 +44,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 child: Form(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [ResetViewPadding(widgetList, logoPath)]),
+                      children: [LoginViewPadding(widgetList, logoPath)]),
                 ))),
       ),
     );

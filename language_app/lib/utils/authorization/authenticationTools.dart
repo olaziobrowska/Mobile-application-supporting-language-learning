@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const _weakPasswordMessage = "Entered password is too short";
 const _emailMalformedMessage = "Entered email is invalid";
@@ -63,8 +62,9 @@ class AuthenticationTools {
   Future<String> signOut() async {
     try {
       await firebaseAuth.signOut();
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.remove('email');
+      //Add on remembering login:
+      //final SharedPreferences prefs = await SharedPreferences.getInstance();
+      //prefs.remove('email');
       return "Success";
     } catch (e) {
       //TODO Log error

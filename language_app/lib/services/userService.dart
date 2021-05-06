@@ -5,14 +5,6 @@ import 'package:language_app/utils/authorization/authenticationTools.dart';
 import 'package:language_app/utils/local_storage/storage.dart';
 import 'package:language_app/view_models/userViewModel.dart';
 
-const _weakPasswordMessage = "Entered password is too short";
-const _emailMalformedMessage = "Entered email is invalid";
-const _emailAlreadyInUseMessage = "Entered email is already used";
-const _badCredentialsMessage = "Invalid credentials";
-const _accountDisabledMessage = "This account has been disabled";
-const _noAccountFoundMessage = "No account found for this email";
-const _toManyTriesMessage = "Too many login attempts. Try again later";
-
 class UserService {
   UserService._();
 
@@ -35,32 +27,23 @@ class UserService {
     return authUser.uid;
   }
 
-  Future<String> registerNewUser(String email, String password) async {
-    FirebaseUser authNewUser;
-    try {
-      authNewUser = await _authenticationTools.registerAccount(email, password);
-    } on AuthException catch (e) {
-      return _handleRegisterException(e);
-    }
-    if (authNewUser == null) return null;
+  Future<String> registerNewUser(String email, String password, String name, String surname) async {
+    List authNewUser;
+    UserUpdateInfo updateInfo = UserUpdateInfo();
+    updateInfo.displayName = name; // temp solution?
+    authNewUser = await _authenticationTools.registerAccount(email, password);
+    if (authNewUser[0] == null) return authNewUser[1];
+    await authNewUser[0].updateProfile(updateInfo);
     var userOutput = await _userRepository
-        .addUser(UserModel.newFromEmail(uid: authNewUser.uid, email: email));
+        .addUser(UserModel.newFromEmail(uid: authNewUser[0].uid, email: email, name: name, surname: surname));
     if (userOutput == null) return null;
     return userOutput;
   }
-
-  Future<String> logIn(String email, String password) async {
-    FirebaseUser result;
-    try {
-      result = await _authenticationTools.logIn(email, password);
-    } on AuthException catch (e) {
-      return _handleLoginException(e);
-    }
-    if (result == null) return null;
-    var customUser = await _userRepository.getUserByUID(result.uid);
-    if (customUser == null) return null;
-    AppStorage.loggedInUser = UserViewModel.newFromUserModel(customUser);
-    return result.uid;
+  Future<List> logIn(String email, String password) async {
+    List result;
+    result = await _authenticationTools.logIn(email, password);
+    if (result[0] == null) return [result[1], null];
+    return [result[0].uid, "Success"];
   }
 
   Future<String> setUserData(
@@ -82,46 +65,5 @@ class UserService {
     var user = await _userRepository.getUserByUID(uid);
     if (user == null) return null;
     return UserViewModel.newFromUserModel(user);
-  }
-
-  String _handleLoginException(AuthException exception) {
-    switch (exception.code) {
-      case "ERROR_INVALID_EMAIL":
-      case "ERROR_WRONG_PASSWORD":
-        return _badCredentialsMessage;
-        break;
-      case "ERROR_USER_NOT_FOUND":
-        return _noAccountFoundMessage;
-        break;
-      case "ERROR_TOO_MANY_REQUESTS":
-        return _toManyTriesMessage;
-        break;
-      case "ERROR_USER_DISABLED":
-      case "ERROR_OPERATION_NOT_ALLOWED":
-        return _accountDisabledMessage;
-        break;
-    }
-  }
-
-  String _handleRegisterException(AuthException exception) {
-    switch (exception.code) {
-      case "ERROR_WEAK_PASSWORD":
-        return _weakPasswordMessage;
-        break;
-      case "ERROR_INVALID_EMAIL":
-        return _emailMalformedMessage;
-        break;
-      case "ERROR_EMAIL_ALREADY_IN_USE":
-        return _emailAlreadyInUseMessage;
-        break;
-    }
-  }
-
-  Future<String> changeLanguage(String newLanguage) async {
-    var user = await getLoggedInUser();
-    if (user == null) return null;
-    user.languageSelected = newLanguage;
-    await _userRepository.editUser(UserModel.newFromViewModel(user));
-    return "Success";
   }
 }
