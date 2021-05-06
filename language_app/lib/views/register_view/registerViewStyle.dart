@@ -10,7 +10,9 @@ Row forgotSignLabels(NavigationService _navigationService) {
         padding: EdgeInsets.all(0.0),
         child: Text("Forgot password?",
           style: hiperLinkTextStyle),
-        onPressed: () {},
+        onPressed: () {
+          _navigationService.navigateTo("resetPasswordView", 0);
+        },
       ),
       FlatButton(
         padding: EdgeInsets.only(left: 0.0),
