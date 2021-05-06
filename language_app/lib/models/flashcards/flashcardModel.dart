@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:language_app/models/userModel.dart';
+import '../../view_models/flashcards/flashcardViewModel.dart';
 
 final String wordFirebaseColumn = "Word";
 final String translatedWordFirebaseColumn = "TranslatedWord";
 final String positiveAnswersFirebaseColumn = "PositiveAnswers";
 final String negativeAnswersFirebaseColumn = "NegativeAnswers";
-final String uidFirebaseColumn = "Uid";
+final String groupIDFirebaseColumn = "GroupID";
 
 class FlashcardModel {
   String id;
   String word;
   String translatedWord;
+  String groupID;
   int positiveAnswers;
   int negativeAnswers;
-  String uid;
 
   FlashcardModel._(
       {this.id,
@@ -21,17 +21,17 @@ class FlashcardModel {
       this.translatedWord,
       this.positiveAnswers,
       this.negativeAnswers,
-      this.uid});
+      this.groupID});
 
-  static FlashcardModel newFlashcard(
-      {UserModel userModel, String word, String translatedWord}) {
-    if (userModel == null) return null;
+  static FlashcardModel newFromViewModel(
+      FlashcardViewModel flashcardViewModel) {
+    if (flashcardViewModel == null) return null;
     return FlashcardModel._(
-        uid: userModel.id,
-        word: word,
-        translatedWord: translatedWord,
-        positiveAnswers: 0,
-        negativeAnswers: 0);
+        word: flashcardViewModel.word,
+        translatedWord: flashcardViewModel.translatedWord,
+        positiveAnswers: flashcardViewModel.positiveAnswers,
+        negativeAnswers: flashcardViewModel.negativeAnswers,
+        groupID: flashcardViewModel.groupID);
   }
 
   static FlashcardModel newFromFireStore(DocumentSnapshot document) {
@@ -42,7 +42,7 @@ class FlashcardModel {
         translatedWord: map[translatedWordFirebaseColumn],
         positiveAnswers: map[positiveAnswersFirebaseColumn],
         negativeAnswers: map[negativeAnswersFirebaseColumn],
-        uid: map[uidFirebaseColumn]);
+        groupID: map[groupIDFirebaseColumn]);
   }
 
   static Map<String, dynamic> toMap(FlashcardModel flashcardModel) {
@@ -56,8 +56,9 @@ class FlashcardModel {
       output[positiveAnswersFirebaseColumn] = flashcardModel.positiveAnswers;
     if (flashcardModel.negativeAnswers != null)
       output[negativeAnswersFirebaseColumn] = flashcardModel.negativeAnswers;
-    if (flashcardModel.uid != null)
-      output[uidFirebaseColumn] = flashcardModel.uid;
+    if(flashcardModel.groupID != null){
+      output[groupIDFirebaseColumn] = flashcardModel.groupID;
+    }
     return output;
   }
 }
