@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 
-Padding LoginViewPadding(List<Widget> widgetList, String imagePath) {
+Padding ResetViewPadding(List<Widget> widgetList, String imagePath) {
   return Padding(
     padding: const EdgeInsets.all(36.0),
     child: Column(
