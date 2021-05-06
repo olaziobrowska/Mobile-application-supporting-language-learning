@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/utils/routes/routes.dart';
-import 'loginViewStyle.dart';
+import 'resetPasswordViewStyle.dart';
 
 class ResetPasswordView extends StatefulWidget {
   final NavigationService _navigationService = locator<NavigationService>();
