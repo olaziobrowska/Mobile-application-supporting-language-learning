@@ -27,7 +27,6 @@ class FlashcardModel {
       FlashcardViewModel flashcardViewModel) {
     if (flashcardViewModel == null) return null;
     return FlashcardModel._(
-        id: flashcardViewModel.id,
         word: flashcardViewModel.word,
         translatedWord: flashcardViewModel.translatedWord,
         positiveAnswers: flashcardViewModel.positiveAnswers,
