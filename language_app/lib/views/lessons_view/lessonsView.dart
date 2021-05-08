@@ -26,26 +26,18 @@ class _LessonsViewState extends State<LessonsView> {
 
   @override
   Widget build(BuildContext context) {
-    final inputWord = TextInputComponent("Enter your text", false, null);
-    final translatedWord = TextOutputComponent("Translation", false, null);
-    final logoPath = "assets/images/placeholder.png";
-    final translateButton = OnPressButton("Translate", () {
-      _homeViewModel.translator
-          .translate("car is pretty", from: 'en', to: 'pl')
-          .then(print);
-      // widget._navigationService.navigateTo("homeView", 1);
+    final logoPath = "assets/images/book5.png";
+    final addLessonButton = OnPressButton("Add lesson", () {
+      widget._navigationService.navigateTo("homeView", 1);
     }, context);
-    final createFlashcardButton = OnPressButton("Create Flashcard", () {
-      widget._navigationService.navigateTo("homeView", 1); //TODO nawigacja do FlashCard
-    }, context);
-    List<Widget> widgetList = [inputWord, translatedWord, translateButton, createFlashcardButton];
+    List<Widget> widgetList = [addLessonButton];
 
     return ChangeNotifierProvider.value(
       value: _homeViewModel,
       child: Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(50),
-            child: MainAppBar(code: AppbarCode.New(appTitle))),
+            child: MainAppBar(code: AppbarCode.New(lessonsTitle))),
         drawer: MainDrawer(),
         body: SingleChildScrollView(
           child: Center(

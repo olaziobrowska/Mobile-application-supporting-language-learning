@@ -41,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
       // widget._navigationService.navigateTo("homeView", 1);
     }, context);
     final createFlashcardButton = OnPressButton("Create Flashcard", () {
-      widget._navigationService.navigateTo("homeView", 1); //TODO nawigacja do FlashCard
+      widget._navigationService.navigateTo("Flashcards", 1); //TODO nawigacja do FlashCard
     }, context);
     List<Widget> widgetList = [inputWord, translatedWord, translateButton, createFlashcardButton];
 

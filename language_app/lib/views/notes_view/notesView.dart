@@ -26,7 +26,7 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     final inputWord = TextInputComponent("Enter your text", false, null);
-    final logoPath = "assets/images/placeholder.png";
+    final logoPath = "assets/images/paper1.png";
     final translateButton = OnPressButton("Translate", () {
       _homeViewModel.translator
           .translate("car is pretty", from: 'en', to: 'pl')
@@ -48,7 +48,7 @@ class _NotesViewState extends State<NotesView> {
       child: Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(50),
-            child: MainAppBar(code: AppbarCode.New(appTitle))),
+            child: MainAppBar(code: AppbarCode.New(notesTitle))),
         drawer: MainDrawer(),
         body: SingleChildScrollView(
           child: Center(
