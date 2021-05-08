@@ -28,8 +28,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeViewModel _homeViewModel = HomeViewModel.instance;
-  String selectedLang1 = 'en'; //todo zmienic
-  String selectedLang2 = 'en';
+  String selectedLang1;
+  String selectedLang2;
 
   @override
   Widget build(BuildContext context) {
@@ -54,71 +54,75 @@ class _HomeViewState extends State<HomeView> {
 
     return ChangeNotifierProvider.value(
       value: _homeViewModel,
-      child: Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(50),
-            child: MainAppBar(code: AppbarCode.New(appTitle))),
-        drawer: MainDrawer(),
-        body: SingleChildScrollView(
-          child: Center(
-              child: Container(
-                  child: Form(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: height1),
-                    SizedBox(height: imageHeight, child: InsertImage(logoPath)),
-                    SizedBox(height: height2),
-                    DropdownButton(
-                      underline: SizedBox(),
-                      hint: Text('Please choose language'),
-                      icon: Icon(
-                        Icons.language,
-                        color: Colors.blueAccent,
+      child: Consumer<HomeViewModel>(
+        builder: (context, viewModel, child) => Scaffold(
+          appBar: PreferredSize(
+              preferredSize: Size.fromHeight(50),
+              child: MainAppBar(code: AppbarCode.New(appTitle))),
+          drawer: MainDrawer(),
+          body: SingleChildScrollView(
+            child: Center(
+                child: Container(
+                    child: Form(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(height: height1),
+                          SizedBox(
+                              height: imageHeight,
+                              child: InsertImage(logoPath)),
+                          SizedBox(height: height2),
+                          DropdownButton(
+                            underline: SizedBox(),
+                            hint: Text('Please choose language'),
+                            icon: Icon(
+                              Icons.language,
+                              color: Colors.blueAccent,
+                            ),
+                            items: HomeViewModel.instance.buildLangItems(),
+                            onChanged: (val) {
+                              setState(() {
+                                selectedLang1 = val;
+                              });
+                            },
+                            value: selectedLang1,
+                          ),
+                          SizedBox(height: height1),
+                          widgetList[0],
+                          SizedBox(height: height1),
+                          DropdownButton(
+                            underline: SizedBox(),
+                            hint: Text('Please choose language'),
+                            icon: Icon(
+                              Icons.language,
+                              color: Colors.blueAccent,
+                            ),
+                            items: HomeViewModel.instance.buildLangItems(),
+                            onChanged: (val) {
+                              setState(() {
+                                selectedLang2 = val;
+                              });
+                            },
+                            value: selectedLang2,
+                          ),
+                          SizedBox(height: height1),
+                          widgetList[1],
+                          SizedBox(height: height3),
+                          widgetList[2],
+                          SizedBox(height: height1),
+                          widgetList[3]
+                        ],
                       ),
-                      items: HomeViewModel.instance.buildLangItems(),
-                      onChanged: (val) {
-                        setState() {
-                          selectedLang1 = val;
-                        }
-                      },
-                      value: selectedLang1,
-                    ),
-                    SizedBox(height: height1),
-                    widgetList[0],
-                    SizedBox(height: height1),
-                    DropdownButton(
-                      underline: SizedBox(),
-                      hint: Text('Please choose language'),
-                      icon: Icon(
-                        Icons.language,
-                        color: Colors.blueAccent,
-                      ),
-                      items: HomeViewModel.instance.buildLangItems(),
-                      onChanged: (val) {
-                        print(val);
-                        setState() {
-                          selectedLang2 = val;
-                        }
-                      },
-                      value: selectedLang2,
-                    ),
-                    SizedBox(height: height1),
-                    widgetList[1],
-                    SizedBox(height: height3),
-                    widgetList[2],
-                    SizedBox(height: height1),
-                    widgetList[3]
-                  ],
-                ),
-              )
-            ]),
-          ))),
+                    )
+                  ]),
+            ))),
+          ),
         ),
       ),
     );
