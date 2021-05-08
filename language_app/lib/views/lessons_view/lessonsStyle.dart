@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:language_app/components/common/commonComponents.dart';
-import 'package:language_app/views/home_view/homeViewModel.dart';
 
-String selectedLang = 'en'; //todo zmienic
+final List<String> entries = <String>['1', '2', '3'];
+final List<int> colorCodes = <int>[300, 200, 100];
 
 Padding LessonsViewPadding(List<Widget> widgetList, String imagePath) {
   return Padding(
@@ -14,24 +14,36 @@ Padding LessonsViewPadding(List<Widget> widgetList, String imagePath) {
         SizedBox(height: 10.0),
         SizedBox(height: 250.0, child: InsertImage(imagePath)),
         SizedBox(height: 10.0),
-        widgetList[0],
-        SizedBox(height: 10.0),
-        DropdownButton(
-          underline: SizedBox(),
-          hint: Text('Please choose language'),
-          icon: Icon(
-            Icons.language,
-            color: Colors.blueAccent,
+        Container(
+          width: 300,
+          height: 300,
+          child: Scrollbar(
+            child: ListView.separated(
+              itemCount: entries.length,
+              itemBuilder: (BuildContext context, int index) {
+                return new GestureDetector(
+                  onTap: () => print(entries[index]),
+                  child: new Card(
+                    child: new Column(
+                      children: <Widget>[
+                        new Container(
+                          height: 50,
+                          color: Colors.blue[colorCodes[index]],
+                          child:
+                              Center(child: Text('Lesson ${entries[index]}')),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+            ),
           ),
-          items: HomeViewModel.instance.buildLangItems(),
-          onChanged: (val) {
-            print(val);
-          },
-          value: selectedLang,
         ),
         SizedBox(height: 10.0),
-        widgetList[1],
-        SizedBox(height: 25.0)
+        widgetList[0],
       ],
     ),
   );
