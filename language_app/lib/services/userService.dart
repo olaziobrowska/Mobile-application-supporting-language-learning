@@ -43,6 +43,7 @@ class UserService {
     List result;
     result = await _authenticationTools.logIn(email, password);
     if (result[0] == null) return [result[1], null];
+    AppStorage.loggedInUser = await getLoggedInUser();
     return [result[0].uid, "Success"];
   }
 

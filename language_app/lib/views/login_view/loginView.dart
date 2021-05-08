@@ -8,6 +8,7 @@ import 'package:language_app/view_models/userViewModel.dart';
 import 'loginViewStyle.dart';
 
 class LoginView extends StatefulWidget {
+  static final String id = "flashGroupView";
   final NavigationService _navigationService = locator<NavigationService>();
 
   LoginView({Key key, this.title}) : super(key: key);
@@ -31,7 +32,7 @@ class _LoginViewState extends State<LoginView> {
     List loginResults = await _userService.logIn(emailController.text, passwordController.text);
     if (loginResults[1] == "Success") {
       UserViewModel u = await _userService.getLoggedInUser();
-      showAlertDialog(context, "Success", "Hello " + u.name, null);
+      showAlertDialog(context, "Success", "Hello " + u.name, "homeView");
       // route to navigate
       //widget._navigationService.navigateTo('REPLACE_ME', 0);
     } else {
