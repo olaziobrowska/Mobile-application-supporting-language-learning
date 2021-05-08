@@ -1,32 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:language_app/models/lessonModel.dart';
-import 'package:language_app/models/userModel.dart';
-import 'package:language_app/services/lessonService.dart';
-import 'package:language_app/utils/local_storage/storage.dart';
+import 'package:language_app/views/home_view/language.dart';
+import 'package:translator/translator.dart';
 
 class LessonsViewModel extends ChangeNotifier {
+  String translatedWord;
+  String inputWord;
+  final translator = GoogleTranslator();
+  Language targetLanguage;
+  Language sourceLanguage;
+
   LessonsViewModel._();
 
   static final LessonsViewModel instance = LessonsViewModel._();
 
-  final LessonService _service = LessonService.instance;
-  List<LessonModel> userLessons = [];
-  LessonModel addLesson = LessonModel.newLesson(
-      userModel: UserModel.newFromViewModel(AppStorage.loggedInUser));
+/*  translate() {
+    notifyListeners();
+  }*/
 
-  Future<void> addNewLesson() async {
-    try {
-      await _service.addLesson(addLesson);
-      await getUsersLesson();
-    } catch (e) {
-      print(e);
+  List<DropdownMenuItem<dynamic>> buildLangItems() {
+    List<DropdownMenuItem<dynamic>> output = [];
+    for (var item in LanguageList.languages.entries) {
+      var build = new DropdownMenuItem<String>(value: item.key,
+          child: new Text(item.value));
+      output.add(build);
     }
-    notifyListeners();
-  }
-
-  Future<void> getUsersLesson() async {
-    userLessons = await _service.getLessons(AppStorage.loggedInUser.uid);
-    notifyListeners();
+    return output;
   }
 }

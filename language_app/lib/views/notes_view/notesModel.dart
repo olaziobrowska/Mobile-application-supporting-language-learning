@@ -1,32 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:language_app/models/lessonModel.dart';
-import 'package:language_app/models/noteModel.dart';
-import 'package:language_app/services/notesService.dart';
-import 'package:language_app/utils/local_storage/storage.dart';
+import 'package:language_app/views/home_view/language.dart';
+import 'package:translator/translator.dart';
 
 class NotesViewModel extends ChangeNotifier {
+  String translatedWord;
+  String inputWord;
+  final translator = GoogleTranslator();
+  Language targetLanguage;
+  Language sourceLanguage;
+
   NotesViewModel._();
 
   static final NotesViewModel instance = NotesViewModel._();
 
-  final NotesService _service = NotesService.instance;
-  LessonModel selectedLesson;
-  NoteModel note = NoteModel.empty();
-
-  getNotes() async {
-    var noteVariable =
-        await _service.getNote(AppStorage.loggedInUser.uid, selectedLesson.id);
-    note = noteVariable;
+/*  translate() {
     notifyListeners();
-  }
+  }*/
 
-  submitNotes() async {
-    try {
-      await _service.addNotes(selectedLesson, note);
-    } catch (e) {
-      print(e);
+  List<DropdownMenuItem<dynamic>> buildLangItems() {
+    List<DropdownMenuItem<dynamic>> output = [];
+    for (var item in LanguageList.languages.entries) {
+      var build = new DropdownMenuItem<String>(value: item.key,
+          child: new Text(item.value));
+      output.add(build);
     }
-    notifyListeners();
+    return output;
   }
 }

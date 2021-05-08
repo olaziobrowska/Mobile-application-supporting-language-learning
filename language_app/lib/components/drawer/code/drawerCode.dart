@@ -26,6 +26,18 @@ class DrawerCode extends ChangeNotifier {
           icon: FontAwesomeIcons.language,
           onTap: () {
             _navigationService.navigateTo("Flashcards", []);
+          }),
+      DrawerListTile(
+          text: "Lessons",
+          icon: FontAwesomeIcons.school,
+          onTap: () {
+            _navigationService.navigateTo("lessonsView", []);
+          }),
+      DrawerListTile(
+          text: "Notes",
+          icon: FontAwesomeIcons.clipboard,
+          onTap: () {
+            _navigationService.navigateTo("notesView", []);
           })
     ];
   }
