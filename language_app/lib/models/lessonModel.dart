@@ -10,7 +10,7 @@ final String languageFirebaseColumn = "Language";
 class LessonModel {
   String id;
   String name;
-  DateTime date;
+  Timestamp date;
   String uid;
   String language;
 
@@ -21,7 +21,7 @@ class LessonModel {
     return LessonModel._(
         uid: userModel.id,
         name: name,
-        date: DateTime.now(),
+        date: Timestamp.now(),
         language: userModel.languageSelected);
   }
 

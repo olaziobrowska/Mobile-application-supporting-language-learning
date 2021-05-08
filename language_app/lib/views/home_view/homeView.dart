@@ -10,9 +10,10 @@ import 'package:provider/provider.dart';
 
 import 'homeViewStyle.dart';
 
-//TODO zrobić zapamiętanie z jakiego języka na jaki się tłumaczy
-//TODO podpiąć pod translateButton logikę
-//TODO refactor + wyniesienie DropDown
+//TODO zrobić zapamiętanie z jakiego języka na jaki się tłumaczy poki co jest tylko ang
+//TODO podpiąć pod translateButton logikę?????
+//TODO refactor gdzie co dać + wyniesienie DropDown
+//TODO podpięcie create flashcards
 
 class HomeView extends StatefulWidget {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -28,6 +29,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final HomeViewModel _homeViewModel = HomeViewModel.instance;
 
+
   @override
   Widget build(BuildContext context) {
     final inputWord = TextInputComponent("Enter your text", false, null);
@@ -37,7 +39,6 @@ class _HomeViewState extends State<HomeView> {
       _homeViewModel.translator
           .translate("car is pretty", from: 'en', to: 'pl')
           .then(print);
-      // widget._navigationService.navigateTo("homeView", 1);
     }, context);
     final createFlashcardButton = OnPressButton("Create Flashcard", () {
       widget._navigationService.navigateTo("Flashcards", 1); //TODO nawigacja do FlashCard

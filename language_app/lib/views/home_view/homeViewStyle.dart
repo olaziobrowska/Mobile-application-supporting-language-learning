@@ -24,7 +24,7 @@ Padding HomeViewPadding(List<Widget> widgetList, String imagePath) {
           ),
           items: HomeViewModel.instance.buildLangItems(),
           onChanged: (val) {
-            print(val);
+            setState(){selectedLang=val;}
           },
           value: selectedLang,
         ),
