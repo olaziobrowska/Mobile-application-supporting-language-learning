@@ -12,21 +12,20 @@ class LessonsViewModel extends ChangeNotifier {
 
   final LessonService _service = LessonService.instance;
   List<LessonModel> userLessons = [];
-  LessonModel addLesson = LessonModel.newLesson(userModel: UserModel.newFromViewModel(AppStorage.loggedInUser));
+  LessonModel addLesson = LessonModel.newLesson(
+      userModel: UserModel.newFromViewModel(AppStorage.loggedInUser));
 
-  Future<void> addNewLesson()async {
-    try{
+  Future<void> addNewLesson() async {
+    try {
       await _service.addLesson(addLesson);
-      //pobierz znowu lekcje usera
       await getUsersLesson();
-    } catch(e){
+    } catch (e) {
       print(e);
     }
     notifyListeners();
   }
 
-  Future<void>getUsersLesson() async{
-    //odwolanie do serwisu
+  Future<void> getUsersLesson() async {
     userLessons = await _service.getLessons(AppStorage.loggedInUser.uid);
     notifyListeners();
   }
