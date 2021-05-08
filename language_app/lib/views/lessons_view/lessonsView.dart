@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'lessonsModel.dart';
 import 'lessonsStyle.dart';
+//TODO nawigacja po kliknięciu do widoku notes
 
 class LessonsView extends StatefulWidget {
   final NavigationService _navigationService = locator<NavigationService>();
