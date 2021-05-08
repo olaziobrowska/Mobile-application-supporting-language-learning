@@ -25,7 +25,7 @@ class DrawerCode extends ChangeNotifier {
           text: "Flashcards",
           icon: FontAwesomeIcons.language,
           onTap: () {
-            _navigationService.navigateTo("Flashcards", []);
+            _navigationService.navigateTo("flashcardGroupsView", []);
           }),
       DrawerListTile(
           text: "Lessons",
