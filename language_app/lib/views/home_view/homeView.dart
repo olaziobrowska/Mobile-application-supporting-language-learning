@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'homeViewStyle.dart';
 
 //TODO zrobić zapamiętanie z jakiego języka na jaki się tłumaczy
-//TODO zmienić listę Languages z testowej
 //TODO podpiąć pod translateButton logikę
 //TODO refactor + wyniesienie DropDown
 

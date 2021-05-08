@@ -13,7 +13,7 @@ Padding HomeViewPadding(List<Widget> widgetList, String imagePath) {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         SizedBox(height: 10.0),
-        SizedBox(height: 250.0, child: InsertImage(imagePath)),
+        SizedBox(height: 240.0, child: InsertImage(imagePath)),
         SizedBox(height: 5.0),
         DropdownButton(
           underline: SizedBox(),
