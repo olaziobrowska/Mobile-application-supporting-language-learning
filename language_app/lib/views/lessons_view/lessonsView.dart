@@ -23,11 +23,13 @@ class LessonsView extends StatefulWidget {
 
 class _LessonsViewState extends State<LessonsView> {
   final LessonsViewModel _lessonsViewModel = LessonsViewModel.instance;
+
   @override
   void initState() {
     super.initState();
     _lessonsViewModel.getUsersLesson();
   }
+
   @override
   Widget build(BuildContext context) {
     final logoPath = "assets/images/book5.png";
@@ -48,53 +50,57 @@ class _LessonsViewState extends State<LessonsView> {
             child: Center(
                 child: Container(
                     child: Form(
-              child:
-                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(height: 10.0),
-                      SizedBox(height: 250.0, child: InsertImage(logoPath)),
-                      SizedBox(height: 10.0),
-                      Container(
-                        width: 300,
-                        height: 300,
-                        child: Scrollbar(
-                          child: ListView.separated(
-                            itemCount: _lessonsViewModel.userLessons.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return new GestureDetector(
-                                onTap: () => print(entries[index]),
-                                child: new Card(
-                                  child: new Column(
-                                    children: <Widget>[
-                                      new Container(
-                                        height: 50,
-                                        color: Colors.blue[colorCodes[
-                                            index % colorCodes.length]],
-                                        child: Center(
-                                            child: Text(
-                                                '${_lessonsViewModel.userLessons[index].name}')),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(height: height1),
+                          SizedBox(
+                              height: imageHeight,
+                              child: InsertImage(logoPath)),
+                          SizedBox(height: height1),
+                          Container(
+                            width: containerValue,
+                            height: containerValue,
+                            child: Scrollbar(
+                              child: ListView.separated(
+                                itemCount: _lessonsViewModel.userLessons.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return new GestureDetector(
+                                    onTap: () => print(entries[index]),
+                                    child: new Card(
+                                      child: new Column(
+                                        children: <Widget>[
+                                          new Container(
+                                            height: 50,
+                                            color: colorList[colorCodes[
+                                                index % colorCodes.length]],
+                                            child: Center(
+                                                child: Text(
+                                                    '${_lessonsViewModel.userLessons[index].name}')),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (BuildContext context, int index) =>
-                                const Divider(),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        const Divider(),
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(height: height1),
+                          widgetList[0],
+                        ],
                       ),
-                      SizedBox(height: 10.0),
-                      widgetList[0],
-                    ],
-                  ),
-                )
-              ]),
+                    )
+                  ]),
             ))),
           ),
         ),
