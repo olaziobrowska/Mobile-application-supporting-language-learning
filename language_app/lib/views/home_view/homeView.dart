@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 import 'homeViewStyle.dart';
 
-//TODO podpiąć pod translateButton logikę?????
+//TODO podpiąć pod translateButton logikę
 //TODO podpięcie create flashcards
 
 class HomeView extends StatefulWidget {
@@ -28,15 +28,36 @@ class _HomeViewState extends State<HomeView> {
   final HomeViewModel _homeViewModel = HomeViewModel.instance;
   String selectedLang1;
   String selectedLang2;
+  final textControllerIn = TextEditingController();
+  final textControllerOut = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    textControllerIn.dispose();
+    super.dispose();
+  }
+
+  String langValidator([String lang]) {
+    if (lang != null) {
+      return lang;
+    } else {
+      return 'auto';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final inputWord = TextInputComponent("Enter your text", false, null);
-    final translatedWord = TextOutputComponent("Translation", false, null);
+    final inputWord =
+        TextInputComponent("Enter your text", false, null, textControllerIn);
+    final translatedWord =
+        TextOutputComponent("Translation", false, null, textControllerOut);
     final logoPath = "assets/images/placeholder.png";
     final translateButton = OnPressButton("Translate", () {
       _homeViewModel.translator
-          .translate("car is pretty", from: 'en', to: 'pl')
+          .translate(textControllerIn.text,
+              from: langValidator(selectedLang1),
+              to: langValidator(selectedLang2))
           .then(print);
     }, context);
     final createFlashcardButton = OnPressButton("Create Flashcard", () {

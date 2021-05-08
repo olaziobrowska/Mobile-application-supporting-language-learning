@@ -15,15 +15,17 @@ InputDecoration buildInputDecoration(String hintText, IconData icon) {
   );
 }
 
-TextField TextInputComponent(
-    String hintText, bool isObscureText, IconData icon) {
+TextField TextInputComponent(String hintText, bool isObscureText, IconData icon,
+    [TextEditingController textEditingController]) {
   if (icon != null) {
     return TextField(
+        controller: textEditingController,
         obscureText: isObscureText,
         style: textStyle,
         decoration: buildInputDecoration(hintText, icon));
   } else {
     return TextField(
+      controller: textEditingController,
       obscureText: isObscureText,
       style: textStyle,
       decoration: InputDecoration(
@@ -85,7 +87,7 @@ DropdownButton DropdownButtonComponent(List<DropdownMenuItem<dynamic>> items,
   );
 }
 
-MaterialButton MaterialButtonComponent(){
+MaterialButton MaterialButtonComponent() {
   return MaterialButton(
     onPressed: () {},
     color: Colors.blue,
@@ -100,15 +102,18 @@ MaterialButton MaterialButtonComponent(){
 }
 
 TextField TextOutputComponent(
-    String hintText, bool isObscureText, IconData icon) {
+    String hintText, bool isObscureText, IconData icon,
+    [TextEditingController textEditingController]) {
   if (icon != null) {
     return TextField(
+        controller: textEditingController,
         obscureText: isObscureText,
         style: textStyle,
         decoration: buildInputDecoration(hintText, icon),
         readOnly: true);
   } else {
     return TextField(
+      controller: textEditingController,
       obscureText: isObscureText,
       style: textStyle,
       readOnly: true,
