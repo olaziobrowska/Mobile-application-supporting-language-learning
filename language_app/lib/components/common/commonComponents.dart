@@ -85,6 +85,20 @@ DropdownButton DropdownButtonComponent(List<DropdownMenuItem<dynamic>> items,
   );
 }
 
+MaterialButton MaterialButtonComponent(){
+  return MaterialButton(
+    onPressed: () {},
+    color: Colors.blue,
+    textColor: Colors.white,
+    child: Icon(
+      Icons.add,
+      size: 24,
+    ),
+    padding: EdgeInsets.all(16),
+    shape: CircleBorder(),
+  );
+}
+
 TextField TextOutputComponent(
     String hintText, bool isObscureText, IconData icon) {
   if (icon != null) {
