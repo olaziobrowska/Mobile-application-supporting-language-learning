@@ -31,7 +31,18 @@ Padding NotesViewPadding(List<Widget> widgetList, String imagePath) {
                     borderSide: new BorderSide(color: Colors.teal)))),
         SizedBox(height: 10.0),
         widgetList[1],
-        SizedBox(height: 25.0)
+        SizedBox(height: 25.0),
+        MaterialButton(
+          onPressed: () {},
+          color: Colors.blue,
+          textColor: Colors.white,
+          child: Icon(
+            Icons.add,
+            size: 24,
+          ),
+          padding: EdgeInsets.all(16),
+          shape: CircleBorder(),
+        )
       ],
     ),
   );
