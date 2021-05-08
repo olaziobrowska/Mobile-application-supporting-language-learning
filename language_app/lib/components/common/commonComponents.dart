@@ -70,6 +70,21 @@ Text textBanner(hintText) {
   );
 }
 
+DropdownButton DropdownButtonComponent(List<DropdownMenuItem<dynamic>> items,
+    Function onChangedAction, String value) {
+  return DropdownButton(
+    underline: SizedBox(),
+    hint: Text('Please choose language'),
+    icon: Icon(
+      Icons.language,
+      color: Colors.blueAccent,
+    ),
+    items: items,
+    onChanged: onChangedAction,
+    value: value,
+  );
+}
+
 TextField TextOutputComponent(
     String hintText, bool isObscureText, IconData icon) {
   if (icon != null) {

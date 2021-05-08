@@ -10,9 +10,7 @@ import 'package:provider/provider.dart';
 
 import 'homeViewStyle.dart';
 
-//TODO zrobić zapamiętanie z jakiego języka na jaki się tłumaczy poki co jest tylko ang
 //TODO podpiąć pod translateButton logikę?????
-//TODO refactor gdzie co dać + wyniesienie DropDown
 //TODO podpięcie create flashcards
 
 class HomeView extends StatefulWidget {
@@ -78,39 +76,21 @@ class _HomeViewState extends State<HomeView> {
                               height: imageHeight,
                               child: InsertImage(logoPath)),
                           SizedBox(height: height2),
-                          DropdownButton(
-                            underline: SizedBox(),
-                            hint: Text('Please choose language'),
-                            icon: Icon(
-                              Icons.language,
-                              color: Colors.blueAccent,
-                            ),
-                            items: HomeViewModel.instance.buildLangItems(),
-                            onChanged: (val) {
-                              setState(() {
-                                selectedLang1 = val;
-                              });
-                            },
-                            value: selectedLang1,
-                          ),
+                          DropdownButtonComponent(
+                              HomeViewModel.instance.buildLangItems(), (val) {
+                            setState(() {
+                              selectedLang1 = val;
+                            });
+                          }, selectedLang1),
                           SizedBox(height: height1),
                           widgetList[0],
                           SizedBox(height: height1),
-                          DropdownButton(
-                            underline: SizedBox(),
-                            hint: Text('Please choose language'),
-                            icon: Icon(
-                              Icons.language,
-                              color: Colors.blueAccent,
-                            ),
-                            items: HomeViewModel.instance.buildLangItems(),
-                            onChanged: (val) {
-                              setState(() {
-                                selectedLang2 = val;
-                              });
-                            },
-                            value: selectedLang2,
-                          ),
+                          DropdownButtonComponent(
+                              HomeViewModel.instance.buildLangItems(), (val) {
+                            setState(() {
+                              selectedLang2 = val;
+                            });
+                          }, selectedLang2),
                           SizedBox(height: height1),
                           widgetList[1],
                           SizedBox(height: height3),
