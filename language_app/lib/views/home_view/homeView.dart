@@ -10,6 +10,11 @@ import 'package:provider/provider.dart';
 
 import 'homeViewStyle.dart';
 
+//TODO zrobić zapamiętanie z jakiego języka na jaki się tłumaczy
+//TODO zmienić listę Languages z testowej
+//TODO podpiąć pod translateButton logikę
+//TODO refactor + wyniesienie DropDown
+
 class HomeView extends StatefulWidget {
   final NavigationService _navigationService = locator<NavigationService>();
 
@@ -35,7 +40,10 @@ class _HomeViewState extends State<HomeView> {
           .then(print);
       // widget._navigationService.navigateTo("homeView", 1);
     }, context);
-    List<Widget> widgetList = [inputWord, translatedWord, translateButton];
+    final createFlashcardButton = OnPressButton("Create Flashcard", () {
+      widget._navigationService.navigateTo("homeView", 1); //TODO nawigacja do FlashCard
+    }, context);
+    List<Widget> widgetList = [inputWord, translatedWord, translateButton, createFlashcardButton];
 
     return ChangeNotifierProvider.value(
       value: _homeViewModel,

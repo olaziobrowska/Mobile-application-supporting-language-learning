@@ -9,7 +9,7 @@ class Language {
 }
 
 class LanguageList {
-  static final _languages = {
+  static final languages = {
     'auto': 'Automatic',
     'af': 'Afrikaans',
     'sq': 'Albanian',
@@ -120,15 +120,15 @@ class LanguageList {
 
   Language operator [](String code) {
     code = code.toLowerCase();
-    if (_languages.containsKey(code)) {
-      return Language(code, _languages[code]);
+    if (languages.containsKey(code)) {
+      return Language(code, languages[code]);
     }
     throw LanguageNotSupportedException('$code is not a supported language.');
   }
 
   static bool contains(String codeOrLang) {
-    if (_languages.containsKey(codeOrLang) ||
-        _languages.containsValue(codeOrLang.toCamelCase())) {
+    if (languages.containsKey(codeOrLang) ||
+        languages.containsValue(codeOrLang.toCamelCase())) {
       return true;
     }
     return false;
