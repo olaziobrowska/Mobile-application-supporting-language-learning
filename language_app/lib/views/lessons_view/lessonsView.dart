@@ -5,9 +5,9 @@ import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/utils/global_const/globalLayout.dart';
 import 'package:language_app/utils/routes/routes.dart';
-import 'package:language_app/views/home_view/homeViewModel.dart';
 import 'package:provider/provider.dart';
 
+import 'lessonsModel.dart';
 import 'lessonsStyle.dart';
 
 class LessonsView extends StatefulWidget {
@@ -22,7 +22,7 @@ class LessonsView extends StatefulWidget {
 }
 
 class _LessonsViewState extends State<LessonsView> {
-  final HomeViewModel _homeViewModel = HomeViewModel.instance;
+  final LessonsViewModel _lessonsViewModel = LessonsViewModel.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _LessonsViewState extends State<LessonsView> {
     List<Widget> widgetList = [addLessonButton];
 
     return ChangeNotifierProvider.value(
-      value: _homeViewModel,
+      value: _lessonsViewModel,
       child: Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(50),
