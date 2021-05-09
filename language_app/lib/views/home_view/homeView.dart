@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 
 import 'homeViewStyle.dart';
 
-//TODO podpiąć pod translateButton logikę
 //TODO podpięcie create flashcards
 
 class HomeView extends StatefulWidget {
@@ -26,7 +25,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeViewModel _homeViewModel = HomeViewModel.instance;
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +86,12 @@ class _HomeViewState extends State<HomeView> {
                             _homeViewModel.setLang2(val);
                           }, _homeViewModel.selectedLang2),
                           SizedBox(height: height1),
-                      TextOutputComponent("Translation", false, null, TextEditingController(text: _homeViewModel.translatedWord)),
+                          TextOutputComponent(
+                              "Translation",
+                              false,
+                              null,
+                              TextEditingController(
+                                  text: _homeViewModel.translatedWord)),
                           SizedBox(height: height3),
                           widgetList[1],
                           SizedBox(height: height1),
