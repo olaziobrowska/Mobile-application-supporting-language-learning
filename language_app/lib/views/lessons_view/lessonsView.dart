@@ -4,16 +4,13 @@ import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/utils/global_const/globalLayout.dart';
-import 'package:language_app/utils/routes/routes.dart';
+import 'package:language_app/views/notes_view/notesView.dart';
 import 'package:provider/provider.dart';
 
 import 'lessonsModel.dart';
 import 'lessonsStyle.dart';
-//TODO nawigacja po kliknięciu do widoku notes
 
 class LessonsView extends StatefulWidget {
-  final NavigationService _navigationService = locator<NavigationService>();
-
   LessonsView({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -73,7 +70,14 @@ class _LessonsViewState extends State<LessonsView> {
                                 itemCount: _lessonsViewModel.userLessons.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return new GestureDetector(
-                                    onTap: () => print(entries[index]),
+                                    onTap: () => {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => NotesView(
+                                                  _lessonsViewModel
+                                                      .userLessons[index])))
+                                    },
                                     child: new Card(
                                       child: new Column(
                                         children: <Widget>[
