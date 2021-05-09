@@ -33,12 +33,6 @@ class DrawerCode extends ChangeNotifier {
           onTap: () {
             _navigationService.navigateTo("lessonsView", []);
           }),
-      DrawerListTile(
-          text: "Notes",
-          icon: FontAwesomeIcons.clipboard,
-          onTap: () {
-            _navigationService.navigateTo("notesView", []);
-          })
     ];
   }
 
