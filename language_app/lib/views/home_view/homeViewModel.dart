@@ -6,10 +6,10 @@ import 'language.dart';
 
 class HomeViewModel extends ChangeNotifier {
   String translatedWord;
-  String inputWord;
+  String inputWord = "";
   final translator = GoogleTranslator();
-  Language targetLanguage;
-  Language sourceLanguage;
+  String selectedLang1;
+  String selectedLang2;
 
   HomeViewModel._();
 
@@ -27,5 +27,31 @@ class HomeViewModel extends ChangeNotifier {
       output.add(build);
     }
     return output;
+  }
+
+  setLang1(String value){
+    selectedLang1 = value;
+    notifyListeners();
+  }
+  setLang2(String value){
+    selectedLang2 = value;
+    notifyListeners();
+  }
+
+  translate() async {
+    var translation = await translator.translate(
+        inputWord,
+        from: langValidator(selectedLang1),
+        to: langValidator(selectedLang2));
+    translatedWord = translation.text;
+    notifyListeners();
+  }
+
+  String langValidator([String lang]) {
+    if (lang != null) {
+      return lang;
+    } else {
+      return 'auto';
+    }
   }
 }

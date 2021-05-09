@@ -15,17 +15,14 @@ InputDecoration buildInputDecoration(String hintText, IconData icon) {
   );
 }
 
-TextField TextInputComponent(String hintText, bool isObscureText, IconData icon,
-    [TextEditingController textEditingController]) {
+TextField TextInputComponent(String hintText, bool isObscureText, IconData icon) {
   if (icon != null) {
     return TextField(
-        controller: textEditingController,
         obscureText: isObscureText,
         style: textStyle,
         decoration: buildInputDecoration(hintText, icon));
   } else {
     return TextField(
-      controller: textEditingController,
       obscureText: isObscureText,
       style: textStyle,
       decoration: InputDecoration(
@@ -33,6 +30,30 @@ TextField TextInputComponent(String hintText, bool isObscureText, IconData icon,
           hintText: hintText,
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
+    );
+  }
+}
+
+TextField TextInputComponent2(String hintText, bool isObscureText, IconData icon,Function onChangedAction,
+    TextEditingController textEditingController) {
+  if (icon != null) {
+    return TextField(
+        controller: textEditingController,
+        obscureText: isObscureText,
+        onChanged: onChangedAction,
+        style: textStyle,
+        decoration: buildInputDecoration(hintText, icon));
+  } else {
+    return TextField(
+      controller: textEditingController,
+      obscureText: isObscureText,
+      onChanged: onChangedAction,
+      style: textStyle,
+      decoration: InputDecoration(
+          contentPadding: inputPadding,
+          hintText: hintText,
+          border:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(12.0))),
     );
   }
 }
