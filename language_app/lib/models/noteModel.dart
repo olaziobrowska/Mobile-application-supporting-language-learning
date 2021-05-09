@@ -6,15 +6,15 @@ final String titleFirebaseColumn = "Title";
 final String dateFirebaseColumn = "Date";
 final String contentFirebaseColumn = "Content";
 final String attachmentFirebaseColumn = "Attachment";
-final String uidFirebaseColumn = "Uid";
+final String uidNoteFirebaseColumn = "Uid";
 
 class NoteModel {
   String id;
   String lessonId;
-  String title;
-  DateTime date;
-  List<String> content;
-  List<String> attachment;
+  String title = "";
+  Timestamp date;
+  List<String> content = [""];
+  List<String> attachment = [""];
   String uid;
 
   NoteModel._(
@@ -25,6 +25,16 @@ class NoteModel {
       this.content,
       this.attachment,
       this.uid});
+
+  static NoteModel empty() {
+    return NoteModel._(
+        uid: "",
+        lessonId: "",
+        title: "",
+        content: [""],
+        attachment: [""],
+        date: Timestamp.now());
+  }
 
   static NoteModel newNote(
       {UserModel userModel,
@@ -38,7 +48,7 @@ class NoteModel {
         lessonId: lessonId,
         title: title,
         content: content,
-        date: DateTime.now(),
+        date: Timestamp.now(),
         attachment: attachment);
   }
 
@@ -48,10 +58,10 @@ class NoteModel {
         id: document.documentID,
         lessonId: map[lessonIdFirebaseColumn],
         title: map[titleFirebaseColumn],
-        content: map[contentFirebaseColumn],
+        content: map[contentFirebaseColumn].cast<String>(),
         date: map[dateFirebaseColumn],
-        attachment: map[attachmentFirebaseColumn],
-        uid: map[uidFirebaseColumn]);
+        attachment: map[attachmentFirebaseColumn].cast<String>(),
+        uid: map[uidNoteFirebaseColumn]);
   }
 
   static Map<String, dynamic> toMap(NoteModel noteModel) {
@@ -65,7 +75,7 @@ class NoteModel {
     if (noteModel.date != null) output[dateFirebaseColumn] = noteModel.date;
     if (noteModel.attachment != null)
       output[attachmentFirebaseColumn] = noteModel.attachment;
-    if (noteModel.uid != null) output[uidFirebaseColumn] = noteModel.uid;
+    if (noteModel.uid != null) output[uidNoteFirebaseColumn] = noteModel.uid;
     return output;
   }
 }
