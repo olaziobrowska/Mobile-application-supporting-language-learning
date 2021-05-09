@@ -11,7 +11,7 @@ const leftTextPadding = EdgeInsets.only(left: 50.0);
 
 //texts
 const kFlashcardGroupsTitle = "Word bank";
-kFlashcardsTitle(String groupName) => "Flashcards in $groupName";
+const kFlashcardsTitle = "Flashcards";
 
 //colors
 const kFloatingButtonBackgroundColor = Colors.white;
