@@ -26,39 +26,19 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeViewModel _homeViewModel = HomeViewModel.instance;
-  String selectedLang1;
-  String selectedLang2;
-  final textControllerIn = TextEditingController();
-  final textControllerOut = TextEditingController();
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    textControllerIn.dispose();
-    super.dispose();
-  }
-
-  String langValidator([String lang]) {
-    if (lang != null) {
-      return lang;
-    } else {
-      return 'auto';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    final textControllerIn =
+        TextEditingController(text: _homeViewModel.inputWord);
     final inputWord =
-        TextInputComponent("Enter your text", false, null, textControllerIn);
-    final translatedWord =
-        TextOutputComponent("Translation", false, null, textControllerOut);
+        TextInputComponent2("Enter your text", false, null, (val) {
+      _homeViewModel.inputWord = val;
+    }, textControllerIn);
     final logoPath = "assets/images/placeholder.png";
-    final translateButton = OnPressButton("Translate", () {
-      _homeViewModel.translator
-          .translate(textControllerIn.text,
-              from: langValidator(selectedLang1),
-              to: langValidator(selectedLang2))
-          .then(print);
+    final translateButton = OnPressButton("Translate", () async {
+      await _homeViewModel.translate();
     }, context);
     final createFlashcardButton = OnPressButton("Create Flashcard", () {
       widget._navigationService
@@ -66,7 +46,6 @@ class _HomeViewState extends State<HomeView> {
     }, context);
     List<Widget> widgetList = [
       inputWord,
-      translatedWord,
       translateButton,
       createFlashcardButton
     ];
@@ -99,25 +78,21 @@ class _HomeViewState extends State<HomeView> {
                           SizedBox(height: height2),
                           DropdownButtonComponent(
                               HomeViewModel.instance.buildLangItems(), (val) {
-                            setState(() {
-                              selectedLang1 = val;
-                            });
-                          }, selectedLang1),
+                            _homeViewModel.setLang1(val);
+                          }, _homeViewModel.selectedLang1),
                           SizedBox(height: height1),
                           widgetList[0],
                           SizedBox(height: height1),
                           DropdownButtonComponent(
                               HomeViewModel.instance.buildLangItems(), (val) {
-                            setState(() {
-                              selectedLang2 = val;
-                            });
-                          }, selectedLang2),
+                            _homeViewModel.setLang2(val);
+                          }, _homeViewModel.selectedLang2),
                           SizedBox(height: height1),
-                          widgetList[1],
+                      TextOutputComponent("Translation", false, null, TextEditingController(text: _homeViewModel.translatedWord)),
                           SizedBox(height: height3),
-                          widgetList[2],
+                          widgetList[1],
                           SizedBox(height: height1),
-                          widgetList[3]
+                          widgetList[2]
                         ],
                       ),
                     )
