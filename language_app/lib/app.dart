@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:language_app/utils/routes/routes.dart';
+import 'package:language_app/views/home_view/homeView.dart';
+import 'package:language_app/views/lessons_view/lessonsView.dart';
 import 'package:language_app/views/register_view/registerView.dart';
 import 'package:language_app/views/welcome_view/welcomeView.dart';
+
 import 'services/notificationService.dart';
 import 'views/login_view/loginView.dart';
 
@@ -26,6 +29,10 @@ class App extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => LoginView());
           case 'registerView':
             return MaterialPageRoute(builder: (context) => RegisterView());
+          case 'homeView':
+            return MaterialPageRoute(builder: (context) => HomeView());
+          case 'lessonsView':
+            return MaterialPageRoute(builder: (context) => LessonsView());
         }
       },
     );

@@ -23,7 +23,9 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final emailField = TextInputComponent("Email", false, null);
     final passwordField = TextInputComponent("Password", true, null);
-    final loginButton = OnPressButton("Login", () {}, context);
+    final loginButton = OnPressButton("Login", () {
+      widget._navigationService.navigateTo("homeView", 1);
+    }, context);
     final registerButton =
         LinkFlatButton("Don't have an account?", _navigateToRegister);
     final logoPath = "assets/images/placeholder.png";
@@ -40,10 +42,10 @@ class _LoginViewState extends State<LoginView> {
         child: Center(
             child: Container(
                 child: Form(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [LoginViewPadding(widgetList, logoPath)]),
-                ))),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [LoginViewPadding(widgetList, logoPath)]),
+        ))),
       ),
     );
   }
