@@ -6,7 +6,13 @@ class PushNotificationService {
   final NavigationService _navigationService = locator<NavigationService>();
 
   Future _serialiseAndNavigate(Map<String, dynamic> message) async {
-    await _navigationService.navigateTo("loginView", 0);
+    String routeName = message['data']['routeName'];
+    int routeId = int.parse(message['data']['routeId']);
+    if ( routeName != null && routeId != null) {
+      await _navigationService.navigateTo(routeName, routeId);
+    } else {
+      await _navigationService.navigateTo('welcomeView', 0);
+    }
   }
 
   Future initialize() async {

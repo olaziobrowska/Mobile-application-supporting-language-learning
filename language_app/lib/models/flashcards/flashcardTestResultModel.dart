@@ -1,34 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:language_app/models/userModel.dart';
+import 'package:language_app/utils/local_storage/storage.dart';
+import 'package:language_app/view_models/flashcards/flashcardTestResultViewModel.dart';
 
 final String pointsFirebaseColumn = "Points";
 final String maxPointsFirebaseColumn = "MaxPoints";
 final String dateFirebaseColumn = "Date";
 final String uidFirebaseColumn = "Uid";
 
-class FlashcardTestModel {
+class FlashcardTestResultModel {
   String id;
   int points;
   int maxPoints;
-  DateTime date;
+  Timestamp date;
   String uid;
 
-  FlashcardTestModel._(
+  FlashcardTestResultModel._(
       {this.id, this.points, this.maxPoints, this.date, this.uid});
 
-  static FlashcardTestModel newFlashcardTest(
-      {UserModel userModel, int maxPoints}) {
-    if (userModel == null) return null;
-    return FlashcardTestModel._(
-        uid: userModel.id,
-        points: 0,
-        maxPoints: maxPoints,
-        date: DateTime.now());
+  static FlashcardTestResultModel newFromViewModel(
+      FlashcardTestResultViewModel viewModel) {
+    return FlashcardTestResultModel._(
+        uid: AppStorage.loggedInUser.uid,
+        points: viewModel.points,
+        maxPoints: viewModel.maxPoints,
+        date: viewModel.date,
+        id: viewModel.id);
   }
 
-  static FlashcardTestModel newFromFireStore(DocumentSnapshot document) {
+  static FlashcardTestResultModel newFromFireStore(DocumentSnapshot document) {
     var map = document.data;
-    return FlashcardTestModel._(
+    return FlashcardTestResultModel._(
         id: document.documentID,
         points: map[pointsFirebaseColumn],
         maxPoints: map[maxPointsFirebaseColumn],
@@ -36,7 +37,7 @@ class FlashcardTestModel {
         uid: map[uidFirebaseColumn]);
   }
 
-  static Map<String, dynamic> toMap(FlashcardTestModel flashcardTestModel) {
+  static Map<String, dynamic> toMap(FlashcardTestResultModel flashcardTestModel) {
     if (flashcardTestModel == null) return null;
     Map<String, dynamic> output = Map();
     if (flashcardTestModel.points != null)
