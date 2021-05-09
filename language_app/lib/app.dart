@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:language_app/utils/routes/routes.dart';
 import 'package:language_app/views/home_view/homeView.dart';
 import 'package:language_app/views/lessons_view/lessonsView.dart';
-import 'package:language_app/views/notes_view/notesView.dart';
 import 'package:language_app/views/flashcards_views/flashcardGroupsView.dart';
 import 'package:language_app/views/flashcards_views/flashcardsView.dart';
 import 'package:language_app/views/progress_view/progressView.dart';
 import 'package:language_app/views/register_view/registerView.dart';
 import 'package:language_app/views/reset_password_view/resetPasswordView.dart';
+import 'package:language_app/views/test_views/testABCDView.dart';
+import 'package:language_app/views/test_views/testSetUpView.dart';
+import 'package:language_app/views/test_views/testTextView.dart';
 import 'package:language_app/views/welcome_view/welcomeView.dart';
 
 import 'services/notificationService.dart';
@@ -15,7 +17,8 @@ import 'views/login_view/loginView.dart';
 
 class App extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
-
+  String email;
+  App({this.email});
   @override
   Widget build(BuildContext context) {
     final pushNotificationService = PushNotificationService();
@@ -25,7 +28,7 @@ class App extends StatelessWidget {
       theme: new ThemeData(scaffoldBackgroundColor: Colors.grey[350]),
       // Route indicated in initial route always has priority before '/' route
       navigatorKey: _navigationService.navigatorKey,
-      home: WelcomeView(),
+      home: email == null ? WelcomeView() : HomeView(),
       onGenerateRoute: (routeSettings) {
         switch (routeSettings.name) {
           case 'welcomeView':
@@ -45,7 +48,14 @@ class App extends StatelessWidget {
           case 'flashcardGroupsView':
             return MaterialPageRoute(builder: (context) => FlashcardGroupsView());
           case 'flashcardsView':
+            // ignore: missing_return
             return MaterialPageRoute(builder: (context) => FlashcardView());
+          case 'testView':
+            return MaterialPageRoute(builder: (context) => TestSetUpView());
+          case 'abcdTestView':
+            return MaterialPageRoute(builder: (context) => TestABCDView());
+          case 'textTestView':
+            return MaterialPageRoute(builder: (context) => TestTextView());
         }
       },
     );

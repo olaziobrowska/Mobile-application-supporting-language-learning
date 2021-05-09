@@ -4,6 +4,7 @@ import 'package:language_app/repositories/userRepository.dart';
 import 'package:language_app/utils/authorization/authenticationTools.dart';
 import 'package:language_app/utils/local_storage/storage.dart';
 import 'package:language_app/view_models/userViewModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {
   UserService._();
@@ -44,6 +45,8 @@ class UserService {
     result = await _authenticationTools.logIn(email, password);
     if (result[0] == null) return [result[1], null];
     AppStorage.loggedInUser = await getLoggedInUser();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', email);
     return [result[0].uid, "Success"];
   }
 

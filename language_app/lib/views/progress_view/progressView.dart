@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:language_app/services/testService.dart';
 import 'package:language_app/utils/routes/routes.dart';
 import 'testCard.dart';
 import 'testCardModel.dart';
 
 class ProgressView extends StatefulWidget {
-  final NavigationService _navigationService = locator<NavigationService>();
-
-  // TODO
-  // final Function getUserTests; or something like that
-  // ProgressView({@required this.getUserTests});
 
   @override
   _ProgressViewState createState() => _ProgressViewState();
@@ -20,22 +16,28 @@ class _ProgressViewState extends State<ProgressView> {
 
   TextEditingController editingController = TextEditingController();
 
-  var items = List<TestCardModel>();
+  var items = List.of({new TestCardModel("ssda", "Raz", 51)});
   var filteredItems = List<TestCardModel>();
   List<String> selectedCountList = [];
-
-  TestCardModel someTestCard1 =
-      TestCardModel(1, "Some test name", 99); // to remove
-  TestCardModel someTestCard2 =
-      TestCardModel(2, "Another test", 32); // to remove
 
   @override
   void initState() {
     super.initState();
-    items.add(someTestCard1); // to remove
-    items.add(someTestCard2); // to remove
-    // TODO
-    // getUserTests(); or something like that
+    List<TestCardModel> models = [];
+    TestService.instance.getUsersTestResults().then((value) {
+      value.forEach((element) {
+        models.add(TestCardModel.fromTestResult(element));
+      });
+      updateItems(models);
+    }
+    );
+  }
+
+  void updateItems(List<TestCardModel> models){
+    if(models.isEmpty) models.add(new TestCardModel("ssda", "Raz", 51));
+    setState(() {
+      items = models;
+    });
   }
 
   void filterSearchResults(String query) {

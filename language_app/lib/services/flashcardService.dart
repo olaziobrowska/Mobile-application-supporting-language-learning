@@ -61,7 +61,7 @@ class FlashcardService {
       var groupModels = await _repository.getUsersFlashcardGroups();
       List<FlashcardGroupViewModel> output = [];
       for (var model in groupModels) {
-        output.add(FlashcardGroupViewModel.fromModel(model));
+        output.add(FlashcardGroupViewModel.fromModel(model, await getFlashcardsInGroup(model.flashcardGroupID)));
       }
       return output;
     } catch (e) {
@@ -128,6 +128,19 @@ class FlashcardService {
         models.add(await getFlashcardsInGroup(group.id));
       }
       return models;
+    } catch(e){
+      throw e;
+    }
+  }
+
+  Future<List<FlashcardViewModel>> getFlashcardsInIDs(List<String> ids) async {
+    try{
+      var flashcards = await _repository.getFlashcardsInIDs(ids);
+      List<FlashcardViewModel> output = [];
+      for(var flashcard in flashcards){
+        output.add(FlashcardViewModel.newFromModel(flashcard));
+      }
+      return output;
     } catch(e){
       throw e;
     }

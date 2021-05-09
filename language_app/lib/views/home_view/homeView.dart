@@ -3,6 +3,8 @@ import 'package:language_app/components/appbar/appbar.dart';
 import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/components/drawer/drawer.dart';
+import 'package:language_app/components/popups/alertDialog.dart';
+import 'package:language_app/services/flashcardService.dart';
 import 'package:language_app/utils/global_const/globalLayout.dart';
 import 'package:language_app/utils/routes/routes.dart';
 import 'package:language_app/views/home_view/homeViewModel.dart';
@@ -10,10 +12,7 @@ import 'package:provider/provider.dart';
 
 import 'homeViewStyle.dart';
 
-//TODO podpięcie create flashcards
-
 class HomeView extends StatefulWidget {
-  final NavigationService _navigationService = locator<NavigationService>();
 
   HomeView({Key key, this.title}) : super(key: key);
 
@@ -39,8 +38,11 @@ class _HomeViewState extends State<HomeView> {
       await _homeViewModel.translate();
     }, context);
     final createFlashcardButton = OnPressButton("Create Flashcard", () {
-      widget._navigationService
-          .navigateTo("Flashcards", 1); //TODO nawigacja do FlashCard
+      if(_homeViewModel.inputWord == null || _homeViewModel.inputWord == ""
+      || _homeViewModel.translatedWord == null || _homeViewModel.translatedWord == "")
+        return showAlertDialog(context,"Oops","You haven't translated any words!",null);
+      FlashcardService.instance.addFlashcardByTranslationScreen(_homeViewModel.inputWord, _homeViewModel.translatedWord);
+      return showAlertDialog(context,"Success","The word has been added to default group!",null);
     }, context);
     List<Widget> widgetList = [
       inputWord,

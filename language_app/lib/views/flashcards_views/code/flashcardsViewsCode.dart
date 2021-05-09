@@ -4,7 +4,6 @@ import 'package:language_app/services/flashcardService.dart';
 import 'package:language_app/utils/routes/routes.dart';
 import 'package:language_app/view_models/errorViewModel.dart';
 import 'package:language_app/view_models/flashcards/flashcardGroupViewModel.dart';
-import 'package:language_app/view_models/flashcards/flashcardViewModel.dart';
 
 class FlashcardsViewsCode extends ChangeNotifier {
   FlashcardsViewsCode._();
@@ -16,7 +15,6 @@ class FlashcardsViewsCode extends ChangeNotifier {
   String errorMessage = "";
   
   List<FlashcardGroupViewModel> usersGroups = [];
-  List<FlashcardViewModel> displayedFlashcards = [];
   FlashcardGroupViewModel selectedGroup;
 
   String newFlashcardGroupInput = "";
@@ -39,7 +37,7 @@ class FlashcardsViewsCode extends ChangeNotifier {
 
   Future<void> fetchGroupFlashcards() async {
     try {
-      displayedFlashcards = await _service.getFlashcardsInGroup(selectedGroup.id);
+      selectedGroup.flashcards = await _service.getFlashcardsInGroup(selectedGroup.id);
     }on ErrorViewModel catch(e){
       errorOccurred = true;
       errorMessage = e.message;

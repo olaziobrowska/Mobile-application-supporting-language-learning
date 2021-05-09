@@ -130,4 +130,19 @@ class FlashcardRepository {
       throw e;
     }
   }
+
+  Future<List<FlashcardModel>> getFlashcardsInIDs(List<String> ids) async {
+    if (ids == null || ids.length == 0)
+      throw ErrorViewModel.newFromMessage("No flashcards specified!");
+    try {
+      List<FlashcardModel> output = [];
+      for(var i = 0; i<ids.length;i++){
+        var doc = await _fireStore.collection(_flashcardCollectionName).document(ids[i]).get();
+        output.add(FlashcardModel.newFromFireStore(doc));
+      }
+      return output;
+    } catch (e) {
+      throw e;
+    }
+  }
 }
