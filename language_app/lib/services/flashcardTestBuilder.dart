@@ -62,9 +62,9 @@ class FlashcardTestBuilder {
     for (int i = 0; i < numberOfQuestions; i++) {
       Random _rnd = Random();
       FlashcardViewModel flashcardToTest =
-      testingFlashcards[_rnd.nextInt(flashcardViewModel.length)];
+      testingFlashcards[_rnd.nextInt(testingFlashcards.length)];
       List<String> answers = List.of([flashcardToTest.translatedWord]);
-      List<FlashcardViewModel> otherFlashcards = flashcardViewModel
+      List<FlashcardViewModel> otherFlashcards = testingFlashcards
           .where((element) => element.id != flashcardToTest.id).toList();
       testingFlashcards = otherFlashcards;
       if (flashcardViewModel.length < 4) {
@@ -78,13 +78,13 @@ class FlashcardTestBuilder {
         for (var j = 0; j < 3; j++) {
           var randomIndex;
           while(true){
-             randomIndex = _rnd.nextInt(testingFlashcards.length);
+             randomIndex = _rnd.nextInt(flashcardViewModel.length);
             if(!indexesTaken.contains(randomIndex)){
               indexesTaken.add(randomIndex);
               break;
             }
           }
-          answers.add(testingFlashcards[randomIndex]
+          answers.add(flashcardViewModel[randomIndex]
               .translatedWord);
         }
       }
