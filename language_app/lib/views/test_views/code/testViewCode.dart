@@ -35,6 +35,7 @@ class TestViewsCode extends ChangeNotifier {
   int currentQuestionIndex = 0;
   int selectedIndex = 5;
   Color answerColor = Colors.red;
+  bool alreadyAnswered = false;
 
   bool errorOccurred = false;
   String errorMessage = "";
@@ -104,6 +105,8 @@ class TestViewsCode extends ChangeNotifier {
   }
 
   answerABCDQuestion(int answerIndex, BuildContext context) async {
+    if(alreadyAnswered) return;
+    alreadyAnswered = true;
     selectedIndex = answerIndex;
     if (createdTest.questions[currentQuestionIndex].answers[answerIndex] ==
         createdTest.questions[currentQuestionIndex].answer) {
@@ -118,6 +121,7 @@ class TestViewsCode extends ChangeNotifier {
     await Future.delayed(const Duration(seconds: 2));
 
     selectedIndex = 5;
+    alreadyAnswered = false;
     if (currentQuestionIndex >= createdTest.questions.length - 1)
       await endTest(context);
     else{

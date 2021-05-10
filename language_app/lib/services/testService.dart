@@ -67,7 +67,7 @@ class TestService {
 
   _updateFlashcardsResults(List<FlashcardViewModel> flashcards, FlashcardTestViewModel testViewModel) {
     flashcards.forEach((elem) { 
-      var question = testViewModel.questions.singleWhere((element) => element.flashcardID == elem.id);
+      var question = testViewModel.questions.firstWhere((element) => element.flashcardID == elem.id);
       if(question.correctAnswer) elem.positiveAnswers++;
       else elem.negativeAnswers++;
     });
