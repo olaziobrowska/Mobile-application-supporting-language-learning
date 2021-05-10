@@ -41,6 +41,10 @@ class TestViewsCode extends ChangeNotifier {
   String errorMessage = "";
 
   startTest() {
+    currentQuestionIndex = 0;
+    selectedIndex = 5;
+    answerColor = Colors.red;
+    alreadyAnswered = false;
     var groups = selectedType == "All" ? userGroups : List.of({selectedGroup});
     createdTest = _service.startNewTest(selectedTimeAmount, selectedTestType,
         selectedItemsAmount, groups, selectedType == "All");
