@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:language_app/models/noteModel.dart';
 import 'package:language_app/models/lessonModel.dart';
+import 'package:language_app/repositories/storageManagementTools.dart';
 import 'package:language_app/utils/local_storage/storage.dart';
 import 'package:language_app/view_models/errorViewModel.dart';
+import 'dart:io';
 
 class NotesRepository {
   String _collectionName = "Notes";
@@ -11,6 +13,7 @@ class NotesRepository {
 
   static final NotesRepository instance = NotesRepository._();
   Firestore fireStore = Firestore.instance;
+  StorageManagementTools storageManagementTools = new StorageManagementTools();
 
   Future<String> addNote(LessonModel lessonModel, NoteModel noteModel) async {
     var user = AppStorage.loggedInUser;
@@ -58,6 +61,32 @@ class NotesRepository {
     } catch (e) {
       print(e);
       throw e;
+    }
+  }
+
+  Future<NoteModel> updateImage(File image, NoteModel noteModel) async {
+    if (image == null || noteModel.id == null || noteModel == null) {
+      throw ErrorViewModel.newFromMessage("No file specified!");
+    } else {
+      CollectionReference userDetails = fireStore.collection(_collectionName);
+      try {
+        if (noteModel != null) {
+          if (noteModel.attachment != "") {
+            await storageManagementTools
+                .deleteFileFromFirebaseStorage(noteModel.attachment);
+          }
+          String attachment = await storageManagementTools.uploadImage(image);
+          noteModel.attachment = attachment;
+          await userDetails
+              .document(noteModel.id)
+              .updateData({attachmentFirebaseColumn: attachment});
+        } else {
+          throw ErrorViewModel.newFromMessage("No file specified!");
+        }
+      } catch (e) {
+        print(e);
+        throw e;
+      }
     }
   }
 }

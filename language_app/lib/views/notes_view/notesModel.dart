@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:language_app/models/lessonModel.dart';
@@ -24,6 +26,15 @@ class NotesViewModel extends ChangeNotifier {
   submitNotes() async {
     try {
       await _service.addNotes(selectedLesson, note);
+    } catch (e) {
+      print(e);
+    }
+    notifyListeners();
+  }
+
+  updateFiles(File file) async {
+    try {
+      await _service.updateFile(file, note);
     } catch (e) {
       print(e);
     }

@@ -113,9 +113,9 @@ DropdownButton DropdownButtonComponent(List<DropdownMenuItem<dynamic>> items,
   );
 }
 
-MaterialButton MaterialButtonComponent() {
+MaterialButton MaterialButtonComponent(Function onPressAction) {
   return MaterialButton(
-    onPressed: () {},
+    onPressed: onPressAction,
     color: Colors.blue,
     textColor: Colors.white,
     child: Icon(
