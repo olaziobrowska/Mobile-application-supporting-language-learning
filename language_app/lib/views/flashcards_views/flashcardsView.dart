@@ -51,6 +51,7 @@ class _FlashcardViewState extends State<FlashcardView>{
                     CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      const Padding(padding: const EdgeInsets.only(top: 10.0)),
                       ListView.builder(
                           itemCount: _code.selectedGroup.flashcards.length,
                           shrinkWrap: true,

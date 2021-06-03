@@ -56,6 +56,7 @@ class _FlashcardGroupsViewState extends State<FlashcardGroupsView>{
                 CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  const Padding(padding: const EdgeInsets.only(top: 10.0)),
                   ListView.builder(
                       itemCount: _code.getDisplayedList(widget.publicGroups).length,
                       shrinkWrap: true,

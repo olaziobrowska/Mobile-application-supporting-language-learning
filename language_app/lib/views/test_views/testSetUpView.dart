@@ -167,7 +167,7 @@ class _TestSetUpViewState extends State<TestSetUpView> {
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 15.0)),
-                    OnPressButton('Start!',() => _code.startTest(),context)
+                    OnPressButton('Start!',() => _code.startTest(context),context)
                   ],
                 )
               ],

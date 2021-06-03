@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:language_app/components/appbar/appbar.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/components/drawer/drawer.dart';
+import 'package:language_app/views/test_views/subcomponents/timerBar.dart';
 import 'package:provider/provider.dart';
 
 import 'code/testViewCode.dart';
@@ -21,7 +22,14 @@ class _TestTextViewState extends State<TestTextView> {
   final TestViewsCode _code = TestViewsCode.instance;
 
   @override
+  void dispose() {
+    _code.stopTimer();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var textEditingComponent = TextEditingController(text: _code.answerTyped);
     return ChangeNotifierProvider.value(
         value: _code,
         child: Consumer<TestViewsCode>(
@@ -33,10 +41,14 @@ class _TestTextViewState extends State<TestTextView> {
                   drawer: MainDrawer(),
                   body: Stack(
                     children: [
-                      Column(
+                      _code.selectedTestType == "Text" ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          const Padding(padding: const EdgeInsets.only(top: 10.0)),
+                          TimerBar(_code.time, _code.selectedTimeAmount.toDouble()),
+                          const Padding(padding: const EdgeInsets.only(top: 10.0)),
+                          Expanded(child: Container()),
                           _code.alreadyAnswered
                               ? Text(
                                   _code.resultText,
@@ -58,14 +70,16 @@ class _TestTextViewState extends State<TestTextView> {
                               'Type your answer', false, Icons.check_circle,
                               (value) {
                             _code.answerTyped = value;
-                          }, TextEditingController(text: _code.answerTyped)),
+                          }, textEditingComponent),
                           Padding(padding: const EdgeInsets.only(top: 35.0)),
                           OnPressButton("Answer", () {
                             _code.answerTextQuestion(context);
-                          }, context)
+                            textEditingComponent.text = "";
+                          }, context),
+                          Expanded(child: Container()),
                         ],
-                      )
-                    ],
+                      ): Container()
+                    ] ,
                   ),
                 )));
   }

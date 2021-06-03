@@ -18,11 +18,13 @@ class FlashcardGroupTile extends StatelessWidget {
       padding: enterPadding,
       child: InkWell(
         onTap: () => _code.navigateToFlashcards(group),
-        child: SizedBox(
+        child: Container(
           height: kTileHeight,
+          decoration: kTileBoxDecoration,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const Padding(padding: const EdgeInsets.only(left: 10.0)),
               Expanded(
                   flex: 6,
                   child: Column(
@@ -30,7 +32,7 @@ class FlashcardGroupTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(padding: leftTextPadding),
-                      Text(group.name, style: itemTextStyle),
+                      Text(group.name, style: kTileTextStyle, overflow: TextOverflow.ellipsis,),
                       isPublicGroupsView
                           ? Row(
                               children: [

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:language_app/components/popups/alertDialog.dart';
@@ -29,6 +31,7 @@ class TestViewsCode extends ChangeNotifier {
   int minTime = 0;
   int maxTime = 45;
   int allFlashcards = 0;
+  Timer timer;
 
   FlashcardTestViewModel createdTest;
 
@@ -37,13 +40,17 @@ class TestViewsCode extends ChangeNotifier {
   Color answerColor = Colors.red;
   bool alreadyAnswered = false;
 
+  double time = 15;
+
   String answerTyped = "";
   String resultText = "Correct";
 
   bool errorOccurred = false;
   String errorMessage = "";
 
-  startTest() {
+  startTest(BuildContext context) {
+    if(selectedItemsAmount == 0)
+      return showAlertDialog(context, "Oops", "You set 0 questions!",null);
     currentQuestionIndex = 0;
     selectedIndex = 5;
     answerColor = Colors.red;
@@ -54,6 +61,7 @@ class TestViewsCode extends ChangeNotifier {
     var nextRoute =
     selectedTestType == "ABCD" ? "abcdTestView" : "textTestView";
     _navigationService.navigateTo(nextRoute, []);
+    _startTimer(context);
   }
 
   updateTestTypeSelect(String value) {
@@ -114,6 +122,7 @@ class TestViewsCode extends ChangeNotifier {
   answerABCDQuestion(int answerIndex, BuildContext context) async {
     if(alreadyAnswered) return;
     alreadyAnswered = true;
+    stopTimer();
     selectedIndex = answerIndex;
     if (createdTest.questions[currentQuestionIndex].answers[answerIndex] ==
         createdTest.questions[currentQuestionIndex].answer) {
@@ -134,12 +143,14 @@ class TestViewsCode extends ChangeNotifier {
     else{
       currentQuestionIndex++;
       notifyListeners();
+      _startTimer(context);
     }
   }
 
   answerTextQuestion(BuildContext context) async {
     if(alreadyAnswered) return;
     alreadyAnswered = true;
+    stopTimer();
     if (createdTest.questions[currentQuestionIndex].answer.toLowerCase() ==
         answerTyped.toLowerCase()) {
       createdTest.correctAnswers++;
@@ -160,6 +171,7 @@ class TestViewsCode extends ChangeNotifier {
     else{
       currentQuestionIndex++;
       notifyListeners();
+      _startTimer(context);
     }
   }
 
@@ -184,6 +196,41 @@ class TestViewsCode extends ChangeNotifier {
         maxItems = selectedGroup != null ? selectedGroup.flashcards.length : 0;
         if (selectedItemsAmount < maxItems) selectedItemsAmount = 0;
         break;
+    }
+  }
+
+  _startTimer(BuildContext context)
+  {
+    if(selectedTimeAmount == 0) return;
+    time = selectedTimeAmount.toDouble();
+    timer = Timer.periodic(Duration(milliseconds: 250), (timer) {
+      time -= 0.25;
+      notifyListeners();
+      if(time == 0) {timer.cancel();_timeHasPassed(context);}
+    });
+  }
+
+  stopTimer()
+  {
+    if(timer != null) timer.cancel();
+  }
+
+  _timeHasPassed(BuildContext context) async
+  {
+    alreadyAnswered = true;
+    answerColor = Colors.red;
+    resultText = "No time left...";
+    notifyListeners();
+    await Future.delayed(const Duration(seconds: 2));
+    alreadyAnswered = false;
+    resultText = "";
+    selectedIndex = 5;
+    if (currentQuestionIndex >= createdTest.questions.length - 1)
+      await endTest(context);
+    else{
+      currentQuestionIndex++;
+      notifyListeners();
+      _startTimer(context);
     }
   }
 }

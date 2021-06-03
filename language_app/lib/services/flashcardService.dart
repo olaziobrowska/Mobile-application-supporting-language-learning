@@ -28,8 +28,10 @@ class FlashcardService {
   }
 
   Future<void> addFlashcardByTranslationScreen(
-      String word, String translation) async {
+      String word, String translation, String selLanguage) async {
+    var temp = AppStorage.loggedInUser.languageSelected;
     try {
+      AppStorage.loggedInUser.languageSelected = selLanguage;
       var flashcardGroups = await getUsersFlashcardGroups();
       var groupRef;
       var defaultGroup = flashcardGroups.firstWhere(
@@ -48,7 +50,9 @@ class FlashcardService {
           FlashcardViewModel.newFlashcard(word, translation, groupRef);
       await _repository
           .addNewFlashCard(FlashcardModel.newFromViewModel(flashcardViewModel));
+      AppStorage.loggedInUser.languageSelected = temp;
     } catch (e) {
+      AppStorage.loggedInUser.languageSelected = temp;
       throw e;
     }
   }

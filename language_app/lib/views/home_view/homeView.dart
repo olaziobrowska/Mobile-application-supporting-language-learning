@@ -44,7 +44,7 @@ class _HomeViewState extends State<HomeView> {
         return showAlertDialog(
             context, "Oops", "You haven't translated any words!", null);
       FlashcardService.instance.addFlashcardByTranslationScreen(
-          _homeViewModel.inputWord, _homeViewModel.translatedWord);
+          _homeViewModel.inputWord, _homeViewModel.translatedWord, _homeViewModel.selectedLang2);
       return showAlertDialog(context, "Success",
           "The word has been added to default group!", null);
     }, context);
@@ -86,19 +86,10 @@ class _HomeViewState extends State<HomeView> {
                           SizedBox(height: height1),
                           widgetList[0],
                           SizedBox(height: height1),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(LanguageList.languages[AppStorage.loggedInUser.languageSelected]),
-                              const Padding(padding: const EdgeInsets.only(left:50.0)),
-                              Icon(
-                                Icons.language,
-                                color: Colors.blueAccent,
-                              ),
-
-                            ],
-                          ),
+                          DropdownButtonComponent(
+                              HomeViewModel.instance.buildLangItems(), (val) {
+                            _homeViewModel.setLang2(val);
+                          }, _homeViewModel.selectedLang2, true),
                           SizedBox(height: height1),
                           TextOutputComponent(
                               "Translation",
