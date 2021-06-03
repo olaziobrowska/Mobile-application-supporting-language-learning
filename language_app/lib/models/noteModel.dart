@@ -14,7 +14,7 @@ class NoteModel {
   String title = "";
   Timestamp date;
   List<String> content = [""];
-  List<String> attachment = [""];
+  String attachment = "";
   String uid;
 
   NoteModel._(
@@ -32,7 +32,7 @@ class NoteModel {
         lessonId: "",
         title: "",
         content: [""],
-        attachment: [""],
+        attachment: "",
         date: Timestamp.now());
   }
 
@@ -41,7 +41,7 @@ class NoteModel {
       String lessonId,
       String title,
       List<String> content,
-      List<String> attachment}) {
+      String attachment}) {
     if (userModel == null) return null;
     return NoteModel._(
         uid: userModel.id,
@@ -60,7 +60,7 @@ class NoteModel {
         title: map[titleFirebaseColumn],
         content: map[contentFirebaseColumn].cast<String>(),
         date: map[dateFirebaseColumn],
-        attachment: map[attachmentFirebaseColumn].cast<String>(),
+        attachment: map[attachmentFirebaseColumn],
         uid: map[uidNoteFirebaseColumn]);
   }
 

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:language_app/components/appbar/appbar.dart';
 import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/common/commonComponents.dart';
@@ -10,7 +13,6 @@ import 'package:language_app/views/notes_view/notesModel.dart';
 import 'package:provider/provider.dart';
 
 import 'notesStyle.dart';
-//TODO załaczniki
 
 class NotesView extends StatefulWidget {
   NotesView(LessonModel selectedModel, {Key key, this.title})
@@ -26,12 +28,24 @@ class NotesView extends StatefulWidget {
 
 class _NotesViewState extends State<NotesView> {
   final NotesViewModel _notesViewModel = NotesViewModel.instance;
+  File _image;
 
   @override
   void initState() {
     super.initState();
     _notesViewModel.getNotes();
   }
+
+  Future _getImage() async {
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+      print(_image);
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +86,7 @@ class _NotesViewState extends State<NotesView> {
                           SizedBox(height: height1),
                           Text(_notesViewModel.selectedLesson.name,
                               style: textStyle),
-                          TextInputComponent2(
-                              "Title",
-                              false,
-                              null, (val) {
+                          TextInputComponent2("Title", false, null, (val) {
                             _notesViewModel.note.title = val;
                           },
                               TextEditingController(
@@ -103,7 +114,29 @@ class _NotesViewState extends State<NotesView> {
                           SizedBox(height: height1),
                           widgetList[0],
                           SizedBox(height: height2),
-                          MaterialButtonComponent()
+                          // MaterialButtonComponent(() async {
+                          //   GestureDetector(
+                          //     onTap: _getImage,
+                          //     child: Container(
+                          //       child: _image == null
+                          //           ? Icon(Icons.attachment, color: Colors.blueAccent, size: 150)
+                          //           : Image.file(_image),
+                          //     ),
+                          //   );
+                          // }),
+                          GestureDetector(
+                            onTap: _getImage,
+                            child: Container(
+                              child: _image == null
+                                  ? Icon(Icons.attachment,
+                                      color: Colors.blueAccent, size: 100)
+                                  : Image.file(_image),
+                            ),
+                          ),
+                          SizedBox(height: height2),
+                          OnPressButton("Add attachment", () async {
+                            await _notesViewModel.updateFiles(_image);
+                          }, context),
                         ],
                       ),
                     )

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:language_app/models/lessonModel.dart';
 import 'package:language_app/models/noteModel.dart';
 import 'package:language_app/repositories/notesRepository.dart';
@@ -24,6 +26,14 @@ class NotesService {
   Future<NoteModel> getNote(String uid, String lessonModelId) async {
     try {
       return await _repository.getNotesByLessonId(uid, lessonModelId);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<NoteModel> updateFile(File image, NoteModel noteModel) async {
+    try {
+      return await _repository.updateImage(image, noteModel);
     } catch (e) {
       throw e;
     }
