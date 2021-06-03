@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:language_app/components/appbar/appbar.dart';
-import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/views/test_views/code/testViewCode.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +27,7 @@ class _TestABCDViewState extends State<TestABCDView> {
             builder: (context, code, child) => Scaffold(
                   appBar: PreferredSize(
                     preferredSize: kAppbarHeight,
-                    child: MainAppBar(code: AppbarCode.New(kAppbarSetupTitle)),
+                    child: MainAppBar(kAppbarSetupTitle),
                   ),
                   drawer: MainDrawer(),
                   body: Stack(

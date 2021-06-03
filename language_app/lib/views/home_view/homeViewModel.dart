@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:language_app/utils/local_storage/storage.dart';
 import 'package:translator/translator.dart';
 
 import 'language.dart';
@@ -9,7 +10,6 @@ class HomeViewModel extends ChangeNotifier {
   String inputWord = "";
   final translator = GoogleTranslator();
   String selectedLang1;
-  String selectedLang2;
 
   HomeViewModel._();
 
@@ -33,16 +33,12 @@ class HomeViewModel extends ChangeNotifier {
     selectedLang1 = value;
     notifyListeners();
   }
-  setLang2(String value){
-    selectedLang2 = value;
-    notifyListeners();
-  }
 
   translate() async {
     var translation = await translator.translate(
         inputWord,
         from: langValidator(selectedLang1),
-        to: langValidator(selectedLang2));
+        to: langValidator(AppStorage.loggedInUser.languageSelected));
     translatedWord = translation.text;
     notifyListeners();
   }

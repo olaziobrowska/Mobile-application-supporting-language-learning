@@ -1,4 +1,7 @@
 import 'package:language_app/models/flashcards/flashcardGroupModel.dart';
+import 'package:language_app/repositories/userRepository.dart';
+import 'package:language_app/utils/local_storage/storage.dart';
+import 'package:language_app/view_models/errorViewModel.dart';
 import '../view_models/flashcards/flashcardGroupViewModel.dart';
 import '../models/flashcards/flashcardModel.dart';
 import 'package:language_app/repositories/flashcardRepository.dart';
@@ -10,6 +13,7 @@ class FlashcardService {
   static final FlashcardService instance = FlashcardService._();
 
   final FlashcardRepository _repository = FlashcardRepository.instance;
+  final UserRepository _userRepository = UserRepository.instance;
 
   Future<void> addFlashcardByGroupID(
       String word, String translation, String selectedGroupID) async {
@@ -29,10 +33,14 @@ class FlashcardService {
       var flashcardGroups = await getUsersFlashcardGroups();
       var groupRef;
       var defaultGroup = flashcardGroups.firstWhere(
-          (element) => element.name == "Translations",
+          (element) =>
+              element.name ==
+                  AppStorage.loggedInUser.languageSelected + " translations" &&
+              element.language == AppStorage.loggedInUser.languageSelected,
           orElse: () => null);
       if (defaultGroup == null) {
-        groupRef = addFlashcardGroup("Translations");
+        groupRef = await addFlashcardGroup(
+            AppStorage.loggedInUser.languageSelected + " translations");
       } else {
         groupRef = defaultGroup.id;
       }
@@ -61,7 +69,27 @@ class FlashcardService {
       var groupModels = await _repository.getUsersFlashcardGroups();
       List<FlashcardGroupViewModel> output = [];
       for (var model in groupModels) {
-        output.add(FlashcardGroupViewModel.fromModel(model, await getFlashcardsInGroup(model.flashcardGroupID)));
+        output.add(FlashcardGroupViewModel.fromModel(
+            model,
+            await getFlashcardsInGroup(model.flashcardGroupID),
+            AppStorage.loggedInUser.names()));
+      }
+      return output;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<FlashcardGroupViewModel>> getPublicFlashcardGroups() async {
+    try {
+      var groupModels = await _repository.getPublicFlashcardGroups();
+      List<FlashcardGroupViewModel> output = [];
+      for (var model in groupModels) {
+        var author = await _userRepository.getUserByUID(model.uid);
+        output.add(FlashcardGroupViewModel.fromModel(
+            model,
+            await getFlashcardsInGroup(model.flashcardGroupID),
+            author.names()));
       }
       return output;
     } catch (e) {
@@ -121,27 +149,45 @@ class FlashcardService {
   }
 
   Future<List<FlashcardViewModel>> getAllUsersFlashcardsAcrossGroups() async {
-    try{
+    try {
       var userGroups = await getUsersFlashcardGroups();
       var models = [];
-      for(var group in userGroups){
+      for (var group in userGroups) {
         models.add(await getFlashcardsInGroup(group.id));
       }
       return models;
-    } catch(e){
+    } catch (e) {
       throw e;
     }
   }
 
   Future<List<FlashcardViewModel>> getFlashcardsInIDs(List<String> ids) async {
-    try{
+    try {
       var flashcards = await _repository.getFlashcardsInIDs(ids);
       List<FlashcardViewModel> output = [];
-      for(var flashcard in flashcards){
+      for (var flashcard in flashcards) {
         output.add(FlashcardViewModel.newFromModel(flashcard));
       }
       return output;
-    } catch(e){
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> downloadPublicFlashcardGroup(
+      FlashcardGroupViewModel groupViewModel) async {
+    try {
+      if (!groupViewModel.public)
+        throw ErrorViewModel.newFromMessage(
+            "Not allowed to download this group!");
+      var author = await _userRepository.getUserByUID(groupViewModel.uid);
+      var copiedGroup = await addFlashcardGroup(
+          groupViewModel.name + " by " + author.name + " " + author.surname);
+      for (var flashcard in groupViewModel.flashcards) {
+        await addFlashcardByGroupID(
+            flashcard.word, flashcard.translatedWord, copiedGroup);
+      }
+    } catch (e) {
       throw e;
     }
   }

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:language_app/components/appbar/appbar.dart';
-import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/components/popups/alertDialog.dart';
 import 'package:language_app/services/flashcardService.dart';
 import 'package:language_app/utils/global_const/globalLayout.dart';
-import 'package:language_app/utils/routes/routes.dart';
+import 'package:language_app/utils/local_storage/storage.dart';
 import 'package:language_app/views/home_view/homeViewModel.dart';
+import 'package:language_app/views/home_view/language.dart';
 import 'package:provider/provider.dart';
 
 import 'homeViewStyle.dart';
 
 class HomeView extends StatefulWidget {
-
   HomeView({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -38,11 +37,16 @@ class _HomeViewState extends State<HomeView> {
       await _homeViewModel.translate();
     }, context);
     final createFlashcardButton = OnPressButton("Create Flashcard", () {
-      if(_homeViewModel.inputWord == null || _homeViewModel.inputWord == ""
-      || _homeViewModel.translatedWord == null || _homeViewModel.translatedWord == "")
-        return showAlertDialog(context,"Oops","You haven't translated any words!",null);
-      FlashcardService.instance.addFlashcardByTranslationScreen(_homeViewModel.inputWord, _homeViewModel.translatedWord);
-      return showAlertDialog(context,"Success","The word has been added to default group!",null);
+      if (_homeViewModel.inputWord == null ||
+          _homeViewModel.inputWord == "" ||
+          _homeViewModel.translatedWord == null ||
+          _homeViewModel.translatedWord == "")
+        return showAlertDialog(
+            context, "Oops", "You haven't translated any words!", null);
+      FlashcardService.instance.addFlashcardByTranslationScreen(
+          _homeViewModel.inputWord, _homeViewModel.translatedWord);
+      return showAlertDialog(context, "Success",
+          "The word has been added to default group!", null);
     }, context);
     List<Widget> widgetList = [
       inputWord,
@@ -55,8 +59,7 @@ class _HomeViewState extends State<HomeView> {
       child: Consumer<HomeViewModel>(
         builder: (context, viewModel, child) => Scaffold(
           appBar: PreferredSize(
-              preferredSize: Size.fromHeight(50),
-              child: MainAppBar(code: AppbarCode.New(appTitle))),
+              preferredSize: Size.fromHeight(50), child: MainAppBar(appTitle)),
           drawer: MainDrawer(),
           body: SingleChildScrollView(
             child: Center(
@@ -79,14 +82,23 @@ class _HomeViewState extends State<HomeView> {
                           DropdownButtonComponent(
                               HomeViewModel.instance.buildLangItems(), (val) {
                             _homeViewModel.setLang1(val);
-                          }, _homeViewModel.selectedLang1),
+                          }, _homeViewModel.selectedLang1, true),
                           SizedBox(height: height1),
                           widgetList[0],
                           SizedBox(height: height1),
-                          DropdownButtonComponent(
-                              HomeViewModel.instance.buildLangItems(), (val) {
-                            _homeViewModel.setLang2(val);
-                          }, _homeViewModel.selectedLang2),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(LanguageList.languages[AppStorage.loggedInUser.languageSelected]),
+                              const Padding(padding: const EdgeInsets.only(left:50.0)),
+                              Icon(
+                                Icons.language,
+                                color: Colors.blueAccent,
+                              ),
+
+                            ],
+                          ),
                           SizedBox(height: height1),
                           TextOutputComponent(
                               "Translation",

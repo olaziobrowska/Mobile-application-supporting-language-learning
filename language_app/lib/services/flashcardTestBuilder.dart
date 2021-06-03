@@ -69,9 +69,18 @@ class FlashcardTestBuilder {
       testingFlashcards = otherFlashcards;
       if (flashcardViewModel.length < 4) {
         answers.addAll(otherFlashcards.map((e) => e.translatedWord));
+        List<int> indexesTaken = [];
         for (var j = 0; j < 4 - answers.length; j++) {
-          answers.add(_randomWordsToFillABCD[
-              _rnd.nextInt(_randomWordsToFillABCD.length)]);
+          var randomIndex;
+          while(true){
+            randomIndex = _rnd.nextInt(_randomWordsToFillABCD.length);
+            if(!indexesTaken.contains(randomIndex)) {
+              answers.add(_randomWordsToFillABCD[randomIndex
+              ]);
+              indexesTaken.add(randomIndex);
+              break;
+            }
+          }
         }
       } else {
         List<int> indexesTaken = [];
@@ -103,7 +112,7 @@ class FlashcardTestBuilder {
       FlashcardViewModel flashcardToTest =
           flashcardViewModel[_rnd.nextInt(flashcardViewModel.length)];
       List<FlashcardViewModel> otherFlashcards = flashcardViewModel
-          .where((element) => element.id != flashcardToTest.id);
+          .where((element) => element.id != flashcardToTest.id).toList();
       flashcardViewModel = otherFlashcards;
       output.add(
           FlashcardTestQuestionViewModel.newForFlashcard(flashcardToTest, []));

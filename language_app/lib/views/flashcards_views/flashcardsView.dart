@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:language_app/components/appbar/appbar.dart';
-import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/views/flashcards_views/code/flashcardsViewsCode.dart';
 import 'package:language_app/views/flashcards_views/code/flashcardsViewsStyle.dart';
@@ -31,7 +30,7 @@ class _FlashcardViewState extends State<FlashcardView>{
         builder: (context,code,child) => Scaffold(
           appBar: PreferredSize(
             preferredSize: kAppbarHeight,
-            child: MainAppBar(code: AppbarCode.New(kFlashcardsTitle)),
+            child: MainAppBar(kFlashcardsTitle),
           ),
           drawer: MainDrawer(),
           floatingActionButton: FloatingActionButton(
@@ -57,7 +56,7 @@ class _FlashcardViewState extends State<FlashcardView>{
                           shrinkWrap: true,
                           physics: ClampingScrollPhysics(),
                           itemBuilder: (context,index) {
-                            return FlashcardTile(_code.selectedGroup.flashcards[index]);
+                            return FlashcardTile(_code.selectedGroup.flashcards[index], );
                           })
                     ]
                 )]

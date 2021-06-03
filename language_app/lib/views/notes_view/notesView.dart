@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:language_app/components/appbar/appbar.dart';
-import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/models/lessonModel.dart';
@@ -50,7 +49,7 @@ class _NotesViewState extends State<NotesView> {
         builder: (context, viewModel, child) => Scaffold(
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(50),
-              child: MainAppBar(code: AppbarCode.New(notesTitle))),
+              child: MainAppBar(notesTitle)),
           drawer: MainDrawer(),
           body: SingleChildScrollView(
             child: Center(

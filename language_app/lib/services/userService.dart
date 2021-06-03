@@ -59,6 +59,13 @@ class UserService {
     return result;
   }
 
+  Future<String> saveCachedUser() async {
+    var user = AppStorage.loggedInUser;
+    if(user == null) return null;
+    var result = await _userRepository.editUser(UserModel.newFromViewModel(user));
+    return result;
+  }
+
   Future<UserViewModel> getUserDataByEmail(String email) async {
     var user = await _userRepository.getUserByEmail(email);
     if (user == null) return null;

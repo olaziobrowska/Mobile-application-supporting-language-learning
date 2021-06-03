@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:language_app/view_models/flashcards/flashcardGroupViewModel.dart';
 import 'package:language_app/view_models/flashcards/flashcardViewModel.dart';
 import 'package:language_app/views/flashcards_views/code/flashcardsViewsCode.dart';
 import 'package:language_app/views/flashcards_views/code/flashcardsViewsStyle.dart';
@@ -32,7 +31,13 @@ class FlashcardTile extends StatelessWidget {
                           padding: leftTextPadding),
                       Text(_flashcard.word + " - " + _flashcard.translatedWord)
                     ],
-                  ))
+                  )),
+              _code.isGroupCreator(_code.selectedGroup) ? Row(
+                children: [
+                  _code.generateGroupsOptions(_flashcard),
+                  const Padding(padding: rightIconsPadding)
+                ],
+              ) : Container()
             ],
           ),
         ),

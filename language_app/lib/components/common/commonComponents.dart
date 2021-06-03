@@ -99,14 +99,14 @@ Text textBanner(hintText) {
 }
 
 DropdownButton DropdownButtonComponent(List<DropdownMenuItem<dynamic>> items,
-    Function onChangedAction, String value) {
+    Function onChangedAction, String value, bool showIconAndText) {
   return DropdownButton(
     underline: SizedBox(),
-    hint: Text('Please choose language'),
-    icon: Icon(
+    hint: showIconAndText ? Text('Please choose language') : null,
+    icon: showIconAndText ? Icon(
       Icons.language,
       color: Colors.blueAccent,
-    ),
+    ) : null,
     items: items,
     onChanged: onChangedAction,
     value: value,

@@ -37,6 +37,9 @@ class TestViewsCode extends ChangeNotifier {
   Color answerColor = Colors.red;
   bool alreadyAnswered = false;
 
+  String answerTyped = "";
+  String resultText = "Correct";
+
   bool errorOccurred = false;
   String errorMessage = "";
 
@@ -132,7 +135,32 @@ class TestViewsCode extends ChangeNotifier {
       currentQuestionIndex++;
       notifyListeners();
     }
+  }
 
+  answerTextQuestion(BuildContext context) async {
+    if(alreadyAnswered) return;
+    alreadyAnswered = true;
+    if (createdTest.questions[currentQuestionIndex].answer.toLowerCase() ==
+        answerTyped.toLowerCase()) {
+      createdTest.correctAnswers++;
+      createdTest.questions[currentQuestionIndex].correctAnswer = true;
+      answerColor = Colors.green;
+      resultText = "Correct";
+    }
+    else {
+      answerColor = Colors.red;
+      resultText = "Incorrect \n Correct answer is: ${createdTest.questions[currentQuestionIndex].answer}";
+    }
+    notifyListeners();
+    await Future.delayed(const Duration(seconds: 2));
+    alreadyAnswered = false;
+    answerTyped = "";
+    if (currentQuestionIndex >= createdTest.questions.length - 1)
+      await endTest(context);
+    else{
+      currentQuestionIndex++;
+      notifyListeners();
+    }
   }
 
   endTest(BuildContext context) async {

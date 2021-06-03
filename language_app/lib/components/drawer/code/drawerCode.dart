@@ -28,6 +28,12 @@ class DrawerCode extends ChangeNotifier {
             _navigationService.navigateTo("flashcardGroupsView", []);
           }),
       DrawerListTile(
+          text: "Public flashcards",
+          icon: FontAwesomeIcons.star,
+          onTap: () {
+            _navigationService.navigateTo("publicFlashcardsView", []);
+          }),
+      DrawerListTile(
           text: "Lessons",
           icon: FontAwesomeIcons.school,
           onTap: () {
@@ -44,7 +50,8 @@ class DrawerCode extends ChangeNotifier {
           icon: FontAwesomeIcons.table,
           onTap: () {
             _navigationService.navigateTo("progressView", []);
-          })
+          }),
+
     ];
   }
 
