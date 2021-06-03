@@ -49,8 +49,8 @@ class TestViewsCode extends ChangeNotifier {
   String errorMessage = "";
 
   startTest(BuildContext context) {
-    if(selectedItemsAmount == 0)
-      return showAlertDialog(context, "Oops", "You set 0 questions!",null);
+    if (selectedItemsAmount == 0)
+      return showAlertDialog(context, "Oops", "You set 0 questions!", null);
     currentQuestionIndex = 0;
     selectedIndex = 5;
     answerColor = Colors.red;
@@ -59,7 +59,7 @@ class TestViewsCode extends ChangeNotifier {
     createdTest = _service.startNewTest(selectedTimeAmount, selectedTestType,
         selectedItemsAmount, groups, selectedType == "All");
     var nextRoute =
-    selectedTestType == "ABCD" ? "abcdTestView" : "textTestView";
+        selectedTestType == "ABCD" ? "abcdTestView" : "textTestView";
     _navigationService.navigateTo(nextRoute, []);
     _startTimer(context);
   }
@@ -120,7 +120,7 @@ class TestViewsCode extends ChangeNotifier {
   }
 
   answerABCDQuestion(int answerIndex, BuildContext context) async {
-    if(alreadyAnswered) return;
+    if (alreadyAnswered) return;
     alreadyAnswered = true;
     stopTimer();
     selectedIndex = answerIndex;
@@ -129,8 +129,7 @@ class TestViewsCode extends ChangeNotifier {
       createdTest.correctAnswers++;
       createdTest.questions[currentQuestionIndex].correctAnswer = true;
       answerColor = Colors.green;
-    }
-    else {
+    } else {
       answerColor = Colors.red;
     }
     notifyListeners();
@@ -140,7 +139,7 @@ class TestViewsCode extends ChangeNotifier {
     alreadyAnswered = false;
     if (currentQuestionIndex >= createdTest.questions.length - 1)
       await endTest(context);
-    else{
+    else {
       currentQuestionIndex++;
       notifyListeners();
       _startTimer(context);
@@ -148,7 +147,7 @@ class TestViewsCode extends ChangeNotifier {
   }
 
   answerTextQuestion(BuildContext context) async {
-    if(alreadyAnswered) return;
+    if (alreadyAnswered) return;
     alreadyAnswered = true;
     stopTimer();
     if (createdTest.questions[currentQuestionIndex].answer.toLowerCase() ==
@@ -157,10 +156,10 @@ class TestViewsCode extends ChangeNotifier {
       createdTest.questions[currentQuestionIndex].correctAnswer = true;
       answerColor = Colors.green;
       resultText = "Correct";
-    }
-    else {
+    } else {
       answerColor = Colors.red;
-      resultText = "Incorrect \n Correct answer is: ${createdTest.questions[currentQuestionIndex].answer}";
+      resultText =
+          "Incorrect \n Correct answer is: ${createdTest.questions[currentQuestionIndex].answer}";
     }
     notifyListeners();
     await Future.delayed(const Duration(seconds: 2));
@@ -168,7 +167,7 @@ class TestViewsCode extends ChangeNotifier {
     answerTyped = "";
     if (currentQuestionIndex >= createdTest.questions.length - 1)
       await endTest(context);
-    else{
+    else {
       currentQuestionIndex++;
       notifyListeners();
       _startTimer(context);
@@ -179,9 +178,12 @@ class TestViewsCode extends ChangeNotifier {
     UIBlock.block(context);
     await _service.submitTestResults(createdTest);
     UIBlock.unblock(context);
+    selectedGroup = null;
     var correctAnswers = createdTest.correctAnswers;
     var incorrectAnswers = createdTest.questions.length - correctAnswers;
-    showAlertDialog(context, "Test completed",
+    showAlertDialog(
+        context,
+        "Test completed",
         "Test completed and results have been saved. \nCorrect answers: $correctAnswers\nIncorrect answers: $incorrectAnswers",
         "testView");
   }
@@ -189,34 +191,36 @@ class TestViewsCode extends ChangeNotifier {
   _updateItems() {
     switch (selectedType) {
       case 'All':
+        if (selectedItemsAmount < allFlashcards) selectedItemsAmount = 0;
         maxItems = allFlashcards;
-        if (selectedItemsAmount < maxItems) selectedItemsAmount = 0;
         break;
       case 'Group':
+        if (selectedGroup == null ||
+            selectedItemsAmount < selectedGroup.flashcards.length)
+          selectedItemsAmount = 0;
         maxItems = selectedGroup != null ? selectedGroup.flashcards.length : 0;
-        if (selectedItemsAmount < maxItems) selectedItemsAmount = 0;
         break;
     }
   }
 
-  _startTimer(BuildContext context)
-  {
-    if(selectedTimeAmount == 0) return;
+  _startTimer(BuildContext context) {
+    if (selectedTimeAmount == 0) return;
     time = selectedTimeAmount.toDouble();
     timer = Timer.periodic(Duration(milliseconds: 250), (timer) {
       time -= 0.25;
       notifyListeners();
-      if(time == 0) {timer.cancel();_timeHasPassed(context);}
+      if (time == 0) {
+        timer.cancel();
+        _timeHasPassed(context);
+      }
     });
   }
 
-  stopTimer()
-  {
-    if(timer != null) timer.cancel();
+  stopTimer() {
+    if (timer != null) timer.cancel();
   }
 
-  _timeHasPassed(BuildContext context) async
-  {
+  _timeHasPassed(BuildContext context) async {
     alreadyAnswered = true;
     answerColor = Colors.red;
     resultText = "No time left...";
@@ -227,7 +231,7 @@ class TestViewsCode extends ChangeNotifier {
     selectedIndex = 5;
     if (currentQuestionIndex >= createdTest.questions.length - 1)
       await endTest(context);
-    else{
+    else {
       currentQuestionIndex++;
       notifyListeners();
       _startTimer(context);
