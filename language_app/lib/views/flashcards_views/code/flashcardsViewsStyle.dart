@@ -34,7 +34,7 @@ const kMoveFlashcardIcon = Icon(
     color: Colors.grey,
 );
 const kDownloadGroupIcon = Icon(
-    Icons.download,
+    FontAwesomeIcons.download,
     color: Colors.grey,
     size: 25.0,
 );
