@@ -56,6 +56,8 @@ class App extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => TestABCDView());
           case 'textTestView':
             return MaterialPageRoute(builder: (context) => TestTextView());
+          case 'publicFlashcardsView':
+            return MaterialPageRoute(builder: (context) => FlashcardGroupsView(publicGroups: true));
         }
       },
     );

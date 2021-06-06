@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:language_app/utils/local_storage/storage.dart';
 import 'package:translator/translator.dart';
 
 import 'language.dart';
@@ -33,6 +34,7 @@ class HomeViewModel extends ChangeNotifier {
     selectedLang1 = value;
     notifyListeners();
   }
+
   setLang2(String value){
     selectedLang2 = value;
     notifyListeners();

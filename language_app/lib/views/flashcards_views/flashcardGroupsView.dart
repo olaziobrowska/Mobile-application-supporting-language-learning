@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:language_app/components/appbar/appbar.dart';
-import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/drawer/drawer.dart';
-import 'package:language_app/utils/routes/routes.dart';
 import 'package:language_app/views/flashcards_views/code/flashcardsViewsCode.dart';
 import 'package:language_app/views/flashcards_views/subcomponents/flashGroupAddSheet.dart';
 import 'package:language_app/views/flashcards_views/subcomponents/flashcardGroupTile.dart';
@@ -14,9 +12,8 @@ import 'code/flashcardsViewsStyle.dart';
 class FlashcardGroupsView extends StatefulWidget {
   static final String id = "flashcardGroupsView";
 
-  FlashcardGroupsView({Key key, this.title}) : super(key: key);
-
-  final String title;
+  bool publicGroups;
+  FlashcardGroupsView({Key key, this.publicGroups = false}) : super(key: key);
 
   @override
   _FlashcardGroupsViewState createState() => _FlashcardGroupsViewState();
@@ -28,6 +25,7 @@ class _FlashcardGroupsViewState extends State<FlashcardGroupsView>{
   void initState() {
     super.initState();
     _code.fetchUserFlashcardGroups();
+    _code.fetchPublicFlashcardGroups();
   }
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,7 @@ class _FlashcardGroupsViewState extends State<FlashcardGroupsView>{
         builder: (context,code,child) => Scaffold(
           appBar: PreferredSize(
             preferredSize: kAppbarHeight,
-            child: MainAppBar(code: AppbarCode.New(kFlashcardGroupsTitle)),
+            child: MainAppBar(kFlashcardGroupsTitle),
           ),
           drawer: MainDrawer(),
           floatingActionButton: FloatingActionButton(
@@ -58,12 +56,13 @@ class _FlashcardGroupsViewState extends State<FlashcardGroupsView>{
                 CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  const Padding(padding: const EdgeInsets.only(top: 10.0)),
                   ListView.builder(
-                      itemCount: _code.usersGroups.length,
+                      itemCount: _code.getDisplayedList(widget.publicGroups).length,
                       shrinkWrap: true,
                       physics: ClampingScrollPhysics(),
                       itemBuilder: (context,index) {
-                      return FlashcardGroupTile(_code.usersGroups[index]);
+                      return FlashcardGroupTile(_code.getDisplayedList(widget.publicGroups)[index],widget.publicGroups);
                   })
                   ]
             )]

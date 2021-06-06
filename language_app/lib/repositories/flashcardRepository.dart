@@ -1,5 +1,4 @@
 import 'package:language_app/models/flashcards/flashcardGroupModel.dart';
-
 import '../models/flashcards/flashcardModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:language_app/utils/local_storage/storage.dart';
@@ -74,6 +73,25 @@ class FlashcardRepository {
       var output = await _fireStore
           .collection(_flashcardGroupCollectionName)
           .where(uidFirebaseColumn, isEqualTo: AppStorage.loggedInUser.uid)
+          .where(languageFirebaseColumn, isEqualTo: AppStorage.loggedInUser.languageSelected)
+          .getDocuments();
+      List<FlashcardGroupModel> flashcardGroups = [];
+      for (var doc in output.documents) {
+        flashcardGroups.add(FlashcardGroupModel.newFromFireStore(doc));
+      }
+      return flashcardGroups;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<FlashcardGroupModel>> getPublicFlashcardGroups() async {
+    if (AppStorage.loggedInUser == null) return null;
+    try {
+      var output = await _fireStore
+          .collection(_flashcardGroupCollectionName)
+          .where(languageFirebaseColumn, isEqualTo: AppStorage.loggedInUser.languageSelected)
+          .where(publicFirebaseColumn, isEqualTo: true)
           .getDocuments();
       List<FlashcardGroupModel> flashcardGroups = [];
       for (var doc in output.documents) {

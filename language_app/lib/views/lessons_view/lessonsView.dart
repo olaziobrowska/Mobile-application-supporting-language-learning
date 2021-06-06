@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:language_app/components/appbar/appbar.dart';
-import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/common/commonComponents.dart';
 import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/utils/global_const/globalLayout.dart';
@@ -42,7 +41,7 @@ class _LessonsViewState extends State<LessonsView> {
         builder: (context, viewModel, child) => Scaffold(
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(50),
-              child: MainAppBar(code: AppbarCode.New(lessonsTitle))),
+              child: MainAppBar(lessonsTitle)),
           drawer: MainDrawer(),
           body: SingleChildScrollView(
             child: Center(

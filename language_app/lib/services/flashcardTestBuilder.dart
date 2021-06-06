@@ -61,31 +61,42 @@ class FlashcardTestBuilder {
     List<FlashcardTestQuestionViewModel> output = [];
     for (int i = 0; i < numberOfQuestions; i++) {
       Random _rnd = Random();
+      var testIndex = _rnd.nextInt(testingFlashcards.length);
       FlashcardViewModel flashcardToTest =
-      testingFlashcards[_rnd.nextInt(flashcardViewModel.length)];
+          testingFlashcards[testIndex];
       List<String> answers = List.of([flashcardToTest.translatedWord]);
-      List<FlashcardViewModel> otherFlashcards = flashcardViewModel
-          .where((element) => element.id != flashcardToTest.id).toList();
+      List<FlashcardViewModel> otherFlashcards = testingFlashcards
+          .where((element) => element.id != flashcardToTest.id)
+          .toList();
       testingFlashcards = otherFlashcards;
       if (flashcardViewModel.length < 4) {
-        answers.addAll(otherFlashcards.map((e) => e.translatedWord));
-        for (var j = 0; j < 4 - answers.length; j++) {
-          answers.add(_randomWordsToFillABCD[
-              _rnd.nextInt(_randomWordsToFillABCD.length)]);
-        }
-      } else {
+        answers.addAll(flashcardViewModel
+            .where((element) => element.id != flashcardToTest.id)
+            .map((e) => e.translatedWord));
         List<int> indexesTaken = [];
-        for (var j = 0; j < 3; j++) {
+        for (var j = 0; j < 4 - answers.length; j++) {
           var randomIndex;
-          while(true){
-             randomIndex = _rnd.nextInt(testingFlashcards.length);
-            if(!indexesTaken.contains(randomIndex)){
+          while (true) {
+            randomIndex = _rnd.nextInt(_randomWordsToFillABCD.length);
+            if (!indexesTaken.contains(randomIndex)) {
+              answers.add(_randomWordsToFillABCD[randomIndex]);
               indexesTaken.add(randomIndex);
               break;
             }
           }
-          answers.add(testingFlashcards[randomIndex]
-              .translatedWord);
+        }
+      } else {
+        List<int> indexesTaken = [testIndex];
+        for (var j = 0; j < 3; j++) {
+          var randomIndex;
+          while (true) {
+            randomIndex = _rnd.nextInt(flashcardViewModel.length);
+            if (!indexesTaken.contains(randomIndex)) {
+              indexesTaken.add(randomIndex);
+              break;
+            }
+          }
+          answers.add(flashcardViewModel[randomIndex].translatedWord);
         }
       }
       answers.shuffle();
@@ -103,7 +114,8 @@ class FlashcardTestBuilder {
       FlashcardViewModel flashcardToTest =
           flashcardViewModel[_rnd.nextInt(flashcardViewModel.length)];
       List<FlashcardViewModel> otherFlashcards = flashcardViewModel
-          .where((element) => element.id != flashcardToTest.id);
+          .where((element) => element.id != flashcardToTest.id)
+          .toList();
       flashcardViewModel = otherFlashcards;
       output.add(
           FlashcardTestQuestionViewModel.newForFlashcard(flashcardToTest, []));

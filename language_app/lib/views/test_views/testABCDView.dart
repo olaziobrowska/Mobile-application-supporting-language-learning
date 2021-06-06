@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:language_app/components/appbar/appbar.dart';
-import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/views/test_views/code/testViewCode.dart';
+import 'package:language_app/views/test_views/subcomponents/timerBar.dart';
 import 'package:provider/provider.dart';
 
 import 'code/testViewStyle.dart';
@@ -21,6 +21,12 @@ class _TestABCDViewState extends State<TestABCDView> {
   final TestViewsCode _code = TestViewsCode.instance;
 
   @override
+  void dispose() {
+    _code.stopTimer();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
         value: _code,
@@ -28,13 +34,16 @@ class _TestABCDViewState extends State<TestABCDView> {
             builder: (context, code, child) => Scaffold(
                   appBar: PreferredSize(
                     preferredSize: kAppbarHeight,
-                    child: MainAppBar(code: AppbarCode.New(kAppbarSetupTitle)),
+                    child: MainAppBar(kAppbarSetupTitle),
                   ),
                   drawer: MainDrawer(),
                   body: Stack(
                     children: [
-                      Column(
+                      _code.selectedTestType == "ABCD" ? Column(
                         children: [
+                          const Padding(padding: EdgeInsets.only(top: 10.0)),
+                          TimerBar(
+                              _code.time, _code.selectedTimeAmount.toDouble()),
                           const Padding(padding: EdgeInsets.only(top: 10.0)),
                           Expanded(
                               flex: 10,
@@ -76,12 +85,14 @@ class _TestABCDViewState extends State<TestABCDView> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         border: Border.all(),
-                                        color: _code.selectedIndex == 0
+                                        color: _code.selectedIndex == 0 ||
+                                                _code.time == 0.0
                                             ? _code.answerColor
                                             : null),
                                     child: InkWell(
                                       onTap: () async {
-                                        await _code.answerABCDQuestion(0,context);
+                                        await _code.answerABCDQuestion(
+                                            0, context);
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -106,12 +117,14 @@ class _TestABCDViewState extends State<TestABCDView> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         border: Border.all(),
-                                        color: _code.selectedIndex == 1
+                                        color: _code.selectedIndex == 1 ||
+                                                _code.time == 0.0
                                             ? _code.answerColor
                                             : null),
                                     child: InkWell(
                                       onTap: () async {
-                                        await _code.answerABCDQuestion(1,context);
+                                        await _code.answerABCDQuestion(
+                                            1, context);
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -145,12 +158,14 @@ class _TestABCDViewState extends State<TestABCDView> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         border: Border.all(),
-                                        color: _code.selectedIndex == 2
+                                        color: _code.selectedIndex == 2 ||
+                                                _code.time == 0.0
                                             ? _code.answerColor
                                             : null),
                                     child: InkWell(
                                       onTap: () async {
-                                        await _code.answerABCDQuestion(2,context);
+                                        await _code.answerABCDQuestion(
+                                            2, context);
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -175,12 +190,14 @@ class _TestABCDViewState extends State<TestABCDView> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         border: Border.all(),
-                                        color: _code.selectedIndex == 3
+                                        color: _code.selectedIndex == 3 ||
+                                                _code.time == 0.0
                                             ? _code.answerColor
                                             : null),
                                     child: InkWell(
                                       onTap: () async {
-                                        await _code.answerABCDQuestion(3,context);
+                                        await _code.answerABCDQuestion(
+                                            3, context);
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -203,7 +220,7 @@ class _TestABCDViewState extends State<TestABCDView> {
                               )),
                           const Padding(padding: EdgeInsets.only(top: 10.0)),
                         ],
-                      )
+                      ) : Container()
                     ],
                   ),
                 )));

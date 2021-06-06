@@ -4,14 +4,16 @@ import '../../view_models/flashcards/flashcardGroupViewModel.dart';
 final String nameFirebaseColumn = "Name";
 final String uidFirebaseColumn = "Uid";
 final String languageFirebaseColumn = "Language";
+final String publicFirebaseColumn = "Public";
 
 class FlashcardGroupModel {
   String flashcardGroupID;
   String uid;
   String language;
   String name;
+  bool public;
 
-  FlashcardGroupModel._({this.flashcardGroupID, this.uid, this.language, this.name});
+  FlashcardGroupModel._({this.flashcardGroupID, this.uid, this.language, this.name, this.public});
 
   static FlashcardGroupModel New(
       String flashcardGroupID, String uid, String language, String name) {
@@ -19,7 +21,8 @@ class FlashcardGroupModel {
         flashcardGroupID: flashcardGroupID,
         uid: uid,
         language: language,
-        name: name);
+        name: name,
+        public: false);
   }
 
   static FlashcardGroupModel fromViewModel(FlashcardGroupViewModel groupViewModel){
@@ -27,7 +30,8 @@ class FlashcardGroupModel {
       flashcardGroupID: groupViewModel.id,
       uid: groupViewModel.uid,
       name: groupViewModel.name,
-      language: groupViewModel.language
+      language: groupViewModel.language,
+      public: groupViewModel.public
     );
   }
 
@@ -37,7 +41,8 @@ class FlashcardGroupModel {
         flashcardGroupID: document.documentID,
         uid: map[uidFirebaseColumn],
         language: map[languageFirebaseColumn],
-        name: map[nameFirebaseColumn]);
+        name: map[nameFirebaseColumn],
+        public: map[publicFirebaseColumn]);
   }
 
   static Map<String, dynamic> toMap(FlashcardGroupModel flashcardGroupModel) {
@@ -49,6 +54,7 @@ class FlashcardGroupModel {
       output[uidFirebaseColumn] = flashcardGroupModel.uid;
     if (flashcardGroupModel.name != null)
       output[nameFirebaseColumn] = flashcardGroupModel.name;
+    output[publicFirebaseColumn] = flashcardGroupModel.public;
     return output;
   }
 }

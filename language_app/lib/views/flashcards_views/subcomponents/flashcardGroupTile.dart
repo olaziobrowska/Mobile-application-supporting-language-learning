@@ -6,8 +6,9 @@ import 'package:language_app/views/flashcards_views/code/flashcardsViewsStyle.da
 
 class FlashcardGroupTile extends StatelessWidget {
   FlashcardGroupViewModel group;
+  bool isPublicGroupsView;
 
-  FlashcardGroupTile(this.group);
+  FlashcardGroupTile(this.group, this.isPublicGroupsView);
 
   final FlashcardsViewsCode _code = FlashcardsViewsCode.instance;
 
@@ -17,21 +18,55 @@ class FlashcardGroupTile extends StatelessWidget {
       padding: enterPadding,
       child: InkWell(
         onTap: () => _code.navigateToFlashcards(group),
-        child: SizedBox(
+        child: Container(
           height: kTileHeight,
+          decoration: kTileBoxDecoration,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const Padding(padding: const EdgeInsets.only(left: 10.0)),
               Expanded(
+                  flex: 6,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(padding: leftTextPadding),
+                      Text(group.name, style: kTileTextStyle, overflow: TextOverflow.ellipsis,),
+                      isPublicGroupsView
+                          ? Row(
+                              children: [
+                                const Padding(padding: secondLeftTextPadding),
+                                Text(
+                                  group.authorNames,
+                                  style: subItemTextStyle,
+                                )
+                              ],
+                            )
+                          : Container(),
+                    ],
+                  )),
+              Row(
                 children: [
-                  const Padding(
-                      padding: leftTextPadding),
-                  Text(group.name)
+                  _code.isGroupCreator(group)
+                      ? InkWell(
+                          onTap: () {
+                            _code.changeGroupPublicity(group);
+                          },
+                          child: kPublicGroupIcon(group.public),
+                        )
+                      : Container(),
+                  !_code.isGroupCreator(group)
+                      ? InkWell(
+                          onTap: () {
+                            _code.downloadPublicGroup(group);
+                          },
+                          child: kDownloadGroupIcon
+                        )
+                      : Container(),
+                  const Padding(padding: rightIconsPadding),
                 ],
-              ))
+              )
             ],
           ),
         ),
