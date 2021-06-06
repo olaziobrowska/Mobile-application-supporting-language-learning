@@ -185,8 +185,21 @@ class FlashcardService {
         throw ErrorViewModel.newFromMessage(
             "Not allowed to download this group!");
       var author = await _userRepository.getUserByUID(groupViewModel.uid);
+      var userFlashcards = await getUsersFlashcardGroups();
+      var name = "";
+      int i = 0;
+      while(true)
+        {
+          name = groupViewModel.name + " by " + author.name + " " + author.surname;
+          name = i == 0 ? name : name + " ($i)";
+          if(userFlashcards.firstWhere((element) => element.name == name, orElse: () => null) == null)
+          {
+            break;
+          }
+          i++;
+        }
       var copiedGroup = await addFlashcardGroup(
-          groupViewModel.name + " by " + author.name + " " + author.surname);
+          name);
       for (var flashcard in groupViewModel.flashcards) {
         await addFlashcardByGroupID(
             flashcard.word, flashcard.translatedWord, copiedGroup);

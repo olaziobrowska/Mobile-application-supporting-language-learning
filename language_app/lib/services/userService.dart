@@ -36,7 +36,7 @@ class UserService {
     if (authNewUser[0] == null) return authNewUser[1];
     await authNewUser[0].updateProfile(updateInfo);
     var userOutput = await _userRepository
-        .addUser(UserModel.newFromEmail(uid: authNewUser[0].uid, email: email, name: name, surname: surname));
+        .addUser(UserModel.newFromEmail(uid: authNewUser[0].uid, email: email, name: name, surname: surname, languageSelected: "en"));
     if (userOutput == null) return null;
     return userOutput;
   }

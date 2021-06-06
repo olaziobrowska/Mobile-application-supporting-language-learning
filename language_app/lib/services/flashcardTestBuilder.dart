@@ -61,8 +61,9 @@ class FlashcardTestBuilder {
     List<FlashcardTestQuestionViewModel> output = [];
     for (int i = 0; i < numberOfQuestions; i++) {
       Random _rnd = Random();
+      var testIndex = _rnd.nextInt(testingFlashcards.length);
       FlashcardViewModel flashcardToTest =
-          testingFlashcards[_rnd.nextInt(testingFlashcards.length)];
+          testingFlashcards[testIndex];
       List<String> answers = List.of([flashcardToTest.translatedWord]);
       List<FlashcardViewModel> otherFlashcards = testingFlashcards
           .where((element) => element.id != flashcardToTest.id)
@@ -85,7 +86,7 @@ class FlashcardTestBuilder {
           }
         }
       } else {
-        List<int> indexesTaken = [];
+        List<int> indexesTaken = [testIndex];
         for (var j = 0; j < 3; j++) {
           var randomIndex;
           while (true) {

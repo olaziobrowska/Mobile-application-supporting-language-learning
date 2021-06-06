@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:language_app/components/appbar/appbar.dart';
-import 'package:language_app/components/appbar/code/appbarCode.dart';
 import 'package:language_app/components/drawer/drawer.dart';
 import 'package:language_app/utils/global_const/globalLayout.dart';
 import 'package:language_app/views/progress_view/progressModel.dart';
@@ -55,7 +54,7 @@ class _ProgressViewState extends State<ProgressView> {
         builder: (context, viewModel, child) => Scaffold(
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(50),
-              child: MainAppBar(code: AppbarCode.New(resultsTitle))),
+              child: MainAppBar(resultsTitle)),
           drawer: MainDrawer(),
           body: items.length > 0
                   ? WillPopScope(
